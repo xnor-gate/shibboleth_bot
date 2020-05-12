@@ -4,8 +4,14 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
 
 ### Table of Contents
 1. [Using the bot](#using-the-bot)
-2. [How to play](#how-to-play-shibboleth)
+2. [How to play Shibboleth](#how-to-play-shibboleth)
+    1. [Veto phase](#veto-phase)
+    2. [Partial team guesses](#partial-team-guesses)
 3. [Playing on Discord](#playing-on-discord)
+    1. [Round logistics](#round-logistics)
+    2. [Fairness](#fairness)
+    3. [Advanced](#advanced)
+    4. [Reactions](#reactions)
 
 ## Using the bot
 Write `!help` to see the bot's list of commands. You can do this in any channel in the server or to the bot via DM. Use `!help command` to get more detailed infomation on a command and its usage.
@@ -37,7 +43,7 @@ The idea of the veto phase is that if the other team that gives too obvious clue
 
 In games with many players, guessing your exact team is hard, an option is allow guessing only part of your team. For example, in a 9-player game, you might play that you need to guess exactly 3 people on your team counting yourself. The guess is right if all those people are your on team, even though some teammates won't be included in the guess. If any of the people you guess are not on your team, you lose. 
 
-# Playing on Discord
+## Playing on Discord
 
 You can play on the [Shibboleth discord server](https://discord.com/invite/TmHxFfG). The bot automatically sends players their secret words and resolves guesses. Write `!help` to see the list of bot commands. You can play at any time if you have people online to play with. If the Shibboleth user doesn't appear as online under "Bot", it must be  down -- please let the maintainer of the repository know.
 
@@ -45,7 +51,7 @@ If you don't have a Discord account, just click the invite and type in a name to
 
 It's recommended to play Shibboleth on a computer rather than a phone.
 
-## Round logistics
+### Round logistics
 
 The game happens in the channel `shibboleth-game`. Go to that channel and write `!join` to join the next round. You can see who is playing in the right panel, and their names will show as highlighted in chat. There can be multiple games going at once in the different game channels.
 
@@ -55,18 +61,18 @@ During a round, the list of words is pinned to the channel, and can be opened wi
 
 In general, you clue by typing in chat. If players agree, you can instead clue over voice. To join the voice channel, see the channel menu on the left, and click the Voice Chat corresponding to the game room.
 
-## Rules
+### Fairness
 
 This games runs on the honor system. To make cluing fair:
 
 - Don't look up information such as by Googling things
 - Don't tell things to other players except through the chat
 
-## Advanced
+### Advanced
 
 Use `@username` to direct your message to someone, such as to indicate that your clue or response is directed to them. You can also reply to their message by clicking the `...` menu on their message on it and choosing `Quote`. 
 
-You might want to use Compact Mode when playing, which makes messages take up less space so you can see more clues. Set this by going to the setting gear next to your user name, under `App settings` click `Appearance`, then check `Compact`.  
+You might want to use Compact Mode when playing, which makes messages take up less space so you can see more clues. Set this by going to the setting gear next to your user name, under `App settings` click `Appearance`, then check `Compact`.
 
 ### Reactions
 
