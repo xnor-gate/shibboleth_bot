@@ -63,8 +63,8 @@ async def on_ready():
 		if channel.type == discord.ChannelType.text:
 			await initialize_channel(channel)
 
-
 def read_token():
+	"""Reads the token for a file that's not committed on GitHub for security."""
 	with open("token.txt", "r") as f:
 		return f.readline()
 

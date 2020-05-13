@@ -1,5 +1,7 @@
 from discord.ext import commands
+
 from help import show_help_page, show_command_help
+
 
 class Info(commands.Cog):
 	def __init__(self, bot):
