@@ -5,13 +5,13 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
 ### Table of Contents
 1. [Using the bot](#using-the-bot)
 2. [How to play Shibboleth](#how-to-play-shibboleth)
-    1. [Veto phase](#veto-phase)
-    2. [Partial team guesses](#partial-team-guesses)
+    - [Veto phase](#veto-phase)
+    - [Partial team guesses](#partial-team-guesses)
 3. [Playing on Discord](#playing-on-discord)
-    1. [Round logistics](#round-logistics)
-    2. [Fairness](#fairness)
-    3. [Advanced](#advanced)
-    4. [Reactions](#reactions)
+    - [Round logistics](#round-logistics)
+    - [Fairness](#fairness)
+    - [Advanced](#advanced)
+    - [Reactions](#reactions)
 
 ## Using the bot
 Write `!help` to see the bot's list of commands. You can do this in any channel in the server or to the bot via DM. Use `!help command` to get more detailed infomation on a command and its usage.
