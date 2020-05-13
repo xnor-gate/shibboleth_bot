@@ -54,7 +54,7 @@ class Shibboleth:
 
 	@classmethod
 	def get_entire_word_list(cls):
-		with open("wordlists/wordlist3000.txt", "r") as f:
+		with open("wordlists/wordlist2000.txt", "r") as f:
 			words = [line.strip() for line in f.readlines()]
 			return words
 
