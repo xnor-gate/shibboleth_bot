@@ -5,6 +5,7 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
 ### Table of Contents
 1. [Using the bot](#using-the-bot)
 2. [How to play Shibboleth](#how-to-play-shibboleth)
+    - [Rules](#rules)
     - [Veto phase](#veto-phase)
     - [Partial team guesses](#partial-team-guesses)
 3. [Playing on Discord](#playing-on-discord)
@@ -17,6 +18,9 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
 Write `!help` to see the Shibboleth bot's list of commands. You can do this in any channel in the server or by messaging the bot. Use `!help command` to get details on using the command.
 
 ## How to play Shibboleth
+
+### Rules
+
 Shibboleth (aka Castlefall) is a hidden-team word game for 4 to 12 players. It's kind-of like Codenames, Spyfall, and Castle of the Devil. A round takes about 5-20 minutes.
 
 You are given a secret word that only you know. Half the players have one secret word and half have another. For example, in a five-player game, three players might get "banana" and two might get "skateboard". 
