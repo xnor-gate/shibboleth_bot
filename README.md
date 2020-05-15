@@ -23,7 +23,7 @@ You are given a secret word that only you know. Half the players have one secret
 
 Your team is the people sharing your word. Your goal is to figure out who is on your team, or to figure out the opposing team's secret word is. If you or someone on your team succeed at this, you win along with your team.
 
-You try to find your team by giving clues for your word. The idea is to convince teammates that you share the same word, but be vague or tricky enough that the opposing team won't figure out your word. You can say clues whenever you want -- there aren't any turns. You have to give your clues publicly to everyone.
+You try to find your team by giving clues for your word. The idea is to convince teammates that you share the same word, but be vague or tricky enough that the opposing team won't figure out your word. You can say whatever you want in your clues, and you can say them whenever you want -- there aren't any turns. The only rule is your clues have to be public  to everyone.
 
 A list of 14 or so random words including both secret words is publicly displayed. Scanning through  this list can help you look for words that the other team might be cluing. If you find one that seems to match, you might then give clues pretending that's your word to try to see if it's indeed their word or infiltrate their team.
 
