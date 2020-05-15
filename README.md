@@ -45,7 +45,7 @@ In games with many players, guessing your exact team is hard, so there's an opti
 
 ## Playing on Discord
 
-You can play on the [Shibboleth discord server](https://discord.com/invite/TmHxFfG). If you don't have a Discord account, just click the invite and type in a name to show for you. Discord asks for your e-mail to link your account, but you can ignore this by clicking outside the prompt.
+You can play on the [Shibboleth discord server](https://discord.com/invite/TmHxFfG). Just click the link, accept the invite, and type in a name to show for you. If Discord asks for your e-mail to link your account, you can ignore this by clicking outside the prompt.
 
 The bot automatically sends players their secret words and resolves guesses. Write `!help` to see the list of bot commands. You can play with your friends online at any time. If the Shibboleth user doesn't appear as online under "Bot", it must be  down -- please let the maintainer know.
 
