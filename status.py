@@ -32,7 +32,7 @@ class Status(commands.Cog):
 	@during_round()
 	async def words(self, ctx, *members: discord.Member):
 
-		wordlist_string = self.bot.get_cog("Round").wordlist_formatted_string
+		wordlist_string = self.bot.get_cog("Round").wordlist_formatted_string(ctx)
 
 		# By default, send to the whole channel
 		if not members:

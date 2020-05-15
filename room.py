@@ -12,7 +12,8 @@ class Room:
 		self.channel = channel
 
 		self.room_players = []
-		self.queued_players = []
+		self.queued_joiners = []
+		self.queued_leavers = []
 
 		self.round_num = 1
 
@@ -58,25 +59,35 @@ class Room:
 			raise RoomError("Can't add player while round is ongoing.")
 		if player not in self.room_players:
 			self.room_players.append(player)
+			self.remove_member_from_joiner_queue(player)
 
 	def remove_player(self, player):
 		if self.in_round:
 			raise RoomError("Can't remove player while round is ongoing.")
 		if player in self.room_players:
 			self.room_players.remove(player)
+			self.remove_member_from_leaver_queue(player)
 
 	def remove_all_players(self):
 		if self.in_round:
 			raise RoomError("Can't remove players while round is ongoing.")
 		self.room_players = []
 
-	def add_member_to_player_queue(self, member):
-		if (member not in self.queued_players) and (member not in self.room_players):
-			self.queued_players.append(member)
+	def add_member_to_joiner_queue(self, member):
+		if (member not in self.queued_joiners) and (member not in self.room_players):
+			self.queued_joiners.append(member)
 
-	def remove_member_from_player_queue(self, member):
-		if member in self.queued_players:
-			self.queued_players.remove(member)
+	def remove_member_from_joiner_queue(self, member):
+		if member in self.queued_joiners:
+			self.queued_joiners.remove(member)
+
+	def add_member_to_leaver_queue(self, member):
+		if (member not in self.queued_leavers) and (member not in self.queued_leavers):
+			self.queued_leavers.append(member)
+
+	def remove_member_from_leaver_queue(self, member):
+		if member in self.queued_leavers:
+			self.queued_leavers.remove(member)
 
 	def sync_players(self):
 		self.remove_all_players()
@@ -97,9 +108,9 @@ class Room:
 		info_strings.append(f"Room: {self.room_name}")
 		info_strings.append(f"Round {self.round_num}")
 		info_strings.append(self.player_name_string)
-		if bool(self.queued_players):
-			queued_player_names = names_string(self.queued_players)
-			info_strings.append(f"Joining next round: {queued_player_names}")
+		if bool(self.queued_joiners):
+			queued_joiner_names = names_string(self.queued_joiners)
+			info_strings.append(f"Joining next round: {queued_joiner_names}")
 
 		if self.in_round:
 			info_strings.extend(self.game.info_strings)

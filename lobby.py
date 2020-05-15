@@ -23,19 +23,24 @@ class Lobby(commands.Cog):
 		if not members:
 			members = (ctx.author,)
 
+		room = here(ctx)
+
 		for member in members:
-			current_players = here(ctx).room_players
+			current_players = room.room_players
 
 			if member.bot:
 				await ctx.send(f"{ctx.author.mention} {member.display_name} is a bot.")
+			elif room.in_round and (member in room.queued_leavers):
+				room.remove_member_from_leaver_queue(member)
+				await ctx.send(f"{member.mention} will no longer leave after this round.")
 			elif member in current_players:
 				await ctx.send(f"{ctx.author.mention} {member.display_name} was already playing.")
-			elif here(ctx).in_round:
-				await ctx.send(f"{ctx.author.mention} {member.display_name} will join and be pinged after this round ends.")
-				here(ctx).add_member_to_player_queue(member)
+			elif room.in_round:
+				await ctx.send(f"{member.mention} will join and be pinged after this round ends.")
+				room.add_member_to_joiner_queue(member)
 			else:
-				here(ctx).add_player(member)
-				await member.add_roles(here(ctx).playing_role)
+				room.add_player(member)
+				await member.add_roles(room.playing_role)
 				await ctx.send(f"{member.mention} is now playing")
 
 	@commands.command(
@@ -52,10 +57,11 @@ class Lobby(commands.Cog):
 		async def remove_player(member):
 			room = here(ctx)
 			if room.in_round and (member in room.game.players):
-				await ctx.send(f"{ctx.author.mention} {member.display_name} cannot leave while playing in current round.")
-			elif room.in_round and (member in room.queued_players):
-				room.remove_member_from_player_queue(member)
-				await ctx.send(f"{ctx.author.mention} {member.display_name} will no longer join after this round.")
+				await ctx.send(f"{member.mention} will leave after this round finishes.")
+				room.add_member_to_leaver_queue(member)
+			elif room.in_round and (member in room.queued_joiners):
+				room.remove_member_from_joiner_queue(member)
+				await ctx.send(f"{member.mention} will no longer join after this round.")
 			elif member in room.room_players:
 				room.remove_player(member)
 				await ctx.send(f"{member.display_name} is no longer playing.")
@@ -83,8 +89,12 @@ class Lobby(commands.Cog):
 	async def start(self, ctx):
 		await self.bot.get_cog("Round").start_round(ctx)
 
-	async def resolve_player_queue(self, ctx):
+	async def resolve_joiner_queue(self, ctx):
 		room = here(ctx)
-		for player in room.queued_players:
+		for player in room.queued_joiners:
 			await self.join(ctx, player)
-		room.queued_players = []
+
+	async def resolve_leaver_queue(self, ctx):
+		room = here(ctx)
+		for player in room.queued_leavers:
+			await self.unjoin(ctx, player)

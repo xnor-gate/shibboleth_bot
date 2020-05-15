@@ -176,7 +176,9 @@ class Round(commands.Cog):
 
 	async def end_round_and_clean_up(self, ctx):
 		here(ctx).end_round()
-		await self.bot.get_cog("Lobby").resolve_player_queue(ctx)
+		lobby_cog = self.bot.get_cog("Lobby")
+		await lobby_cog.resolve_joiner_queue(ctx)
+		await lobby_cog.resolve_leaver_queue(ctx)
 
 	@commands.command(
 		brief="Pause the round, preventing guessing",

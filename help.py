@@ -5,7 +5,7 @@ async def show_help_page(ctx):
 	bot = ctx.bot
 	message_lines = []
 
-	prefix = "For game rules and Discord help, see <http://github.com/xnor-gate/shibboleth_bot/blob/master/README.md>"
+	prefix = "For game rules and Discord tips, see <http://github.com/xnor-gate/shibboleth_bot/blob/master/README.md>"
 
 	for cog_name, cog in bot.cogs.items():
 		message_lines.append(f"{cog_name}:")

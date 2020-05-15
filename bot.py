@@ -58,6 +58,7 @@ async def initialize_channel(channel):
 @bot.event
 async def on_ready():
 	print(f"Logged in as {bot.user.name}")
+	await bot.change_presence(activity=discord.Activity(name="Shibboleth (!h for help)", type=1, url="https://github.com/xnor-gate/shibboleth_bot/blob/master/README.md"))
 
 	for channel in bot.get_all_channels():
 		if channel.type == discord.ChannelType.text:
