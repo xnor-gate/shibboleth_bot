@@ -28,6 +28,7 @@ You are given a secret word that only you know. Half the players have one secret
 The people sharing your word are your team, while the opposing team all has another word. You want to work together with them and figure out who they are. At any point in the round, you can submit a guess of either:
 - The full set of people on your team
 - The opposing team's word
+
 Whether you're right determines whether your team wins or the opposing team. After any guess, the round immediately ends and the teams and words are revealed.
 
 You try to find your team by giving clues about your word. The idea is to convince teammates that you share the same word, while being vague or tricky enough that the opposing team won't figure out your word. You can say whatever you want in your clues, and you can clue whenever you want -- there aren't any turns. The only rule is your clues have to be public to everyone.
