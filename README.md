@@ -88,8 +88,8 @@ Reactions on a clue can be used as a shorthand to express what you think about i
 
 ## Credits
 
-Shibboleth bot and server by xnor-gate. Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which this was written, and to the discord.py Discord community for their frequent help.
+Shibboleth bot and server by xnor-gate. Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which the bot was written, and to the discord.py Discord community for their frequent help.
 
-Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to playing the game in person, from which this project took inspiration. Play them at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall).
+Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to play the game in person at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall) from which this project took inspiration.
 
 Thanks to [dfkoh](dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, and to everyone who suggested names and improvements.
