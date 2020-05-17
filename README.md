@@ -17,7 +17,7 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
 
 
 ## Using the bot
-Write `!help` to see the Shibboleth bot's list of commands. You can do this in any channel in the server or by messaging the bot. Use `!help command` to get details on using the command.
+Write `!help` to show the Shibboleth bot's list of commands. You can do this in any channel in the server or by messaging the bot. Use `!help command` to get details on using that command. If you want to play, write `!join` in the game's channel.
 
 ## How to play Shibboleth
 
