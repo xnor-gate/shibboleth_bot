@@ -13,6 +13,8 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
     - [Fairness](#fairness)
     - [Discord tricks](#discord-tricks)
         - [Reactions](#reactions)
+3. [Credits](#credits)
+
 
 ## Using the bot
 Write `!help` to see the Shibboleth bot's list of commands. You can do this in any channel in the server or by messaging the bot. Use `!help command` to get details on using the command.
@@ -83,3 +85,11 @@ You might want to use Compact Mode when playing, which makes messages take up le
 You can post reactions (emoji) on a message by clicking the smiley-face while hovering over it. You can also include them in your own message by clicking the smiley on the far right of the message box, or pressing Ctrl+E. You can also type the name like `:tree:`, which will autocomplete. Beware that the emoji might not appear exactly the same on different people's screens.
 
 Reactions on a clue can be used as a shorthand to express what you think about it. Some emoji with a conventional meaning are listed in the Shibboleth server category for convenience. For example, the `:vouch:` star symbol expresses that you fully trust the cluer as being on your team, and the `:fishing:` rod accuses the cluer of cluing a word that isn't theirs as bait. These have no rules function and are just a means of communication. Feel free to suggest more emoji to add to the server.
+
+## Credits
+
+Shibboleth bot and server by xnor-gate. Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which this was written, and to the discord.py Discord community for their frequent help.
+
+Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to playing the game in person, from which this project took inspiration. Play them at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall).
+
+Thanks to [dfkoh](dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, and to everyone who suggested names and improvements.
