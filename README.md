@@ -73,7 +73,8 @@ This games runs on the honor system. To make cluing fair:
 
 - Don't look up information such as by Googling things
 - Don't tell things to other players except through the chat
-- Don't edit your messages or remove reactions to hide information 
+- Don't edit your messages or remove reactions to hide information
+- Don't use weird crypto-ish clues like "The sum of the letter values mod 7...". Wordplay is fine and encouraged.
 
 ### Discord tricks
 
