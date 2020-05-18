@@ -44,6 +44,7 @@ argument
 aristocrat
 arm
 armada
+armadillo
 armor
 army
 arrow
@@ -221,7 +222,6 @@ bumblebee
 bunch
 bunk-bed
 bunny
-burger
 burp
 burrito
 bus
@@ -581,6 +581,7 @@ electricity
 elephant
 elevator
 eleven
+emerald
 emergency
 emigrate
 emotion
@@ -1075,7 +1076,6 @@ meal
 meaning
 meat
 mechanic
-mechant
 media
 medic
 medicine
@@ -1084,6 +1084,7 @@ megaphone
 member
 memory
 menu
+merchant
 mermaid
 mess
 message
@@ -1236,7 +1237,6 @@ pants
 paper
 parade
 parents
-parfume
 park
 parka
 parody

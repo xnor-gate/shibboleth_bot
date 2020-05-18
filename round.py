@@ -147,6 +147,9 @@ class Round(commands.Cog):
 
 		warning_time = 10
 
+		# The below probably be better done with `bot.wait_for`.
+		# We track if the same round is still ongoing by whether the round number hasn't changed.
+
 		initial_round_num = here(ctx).round_num
 
 		if veto_time > warning_time:

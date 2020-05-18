@@ -24,6 +24,8 @@ async def show_help_page(ctx):
 	await ctx.send(boxed_message, embed=None)
 
 async def show_command_help(ctx, command_name):
+	command_name = command_name.lstrip("!")
+
 	all_commands = ctx.bot.all_commands
 	if command_name not in all_commands.keys():
 		raise CommandError(f"Unknown command")

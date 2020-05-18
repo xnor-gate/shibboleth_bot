@@ -32,6 +32,9 @@ def playing_role_in_channel(channel):
 	if "shibboleth-game" in channel_name:
 		suffix = channel_name[len("shibboleth-game"):]
 		role_name = "Playing" + suffix
+	elif "shibboleth-pictures" in channel_name:
+		suffix = channel_name[len("shibboleth-pictures"):]
+		role_name = "PlayingPics" + suffix
 	elif "bot-testing" in channel_name:
 		suffix = channel_name[len("bot-testing"):]
 		role_name = "Testing" + suffix

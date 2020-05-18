@@ -13,14 +13,16 @@ from shibboleth import GameActionError, GameInitializationError
 from status import Status
 from help import CommandError
 
-BOT_PREFIX = "!"
-bot = Bot(command_prefix=BOT_PREFIX, case_insensitive=True)
-bot.remove_command("help")
+BOT_PREFIX = "!"  # Hardcoded in many user-facing strings, so if you change this you'll want to change those too
+bot = Bot(command_prefix=BOT_PREFIX, case_insensitive=True, help_command=None)
 
 COGS = [Lobby(bot), Round(bot), Info(bot), Options(bot), Status(bot)]
 
 for cog in COGS:
 	bot.add_cog(cog)
+
+for command in bot.walk_commands():
+	command.ignore_extra = False
 
 @bot.event
 async def on_message_edit(_before, after):

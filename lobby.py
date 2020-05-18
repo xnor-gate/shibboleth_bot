@@ -76,8 +76,6 @@ class Lobby(commands.Cog):
 						await remove_player(player)
 				else:
 					raise commands.CheckFailure(f"Cannot remove `{member_or_role.name}`. Must be the current room's player role `{playing_role}`.")
-				for player in here(ctx).room_players:
-					await remove_player(player)
 			else:
 				await remove_player(member_or_role)
 
@@ -91,10 +89,10 @@ class Lobby(commands.Cog):
 
 	async def resolve_joiner_queue(self, ctx):
 		room = here(ctx)
-		for player in room.queued_joiners:
-			await self.join(ctx, player)
+		if room.queued_joiners:
+			await self.join(ctx, *room.queued_joiners)
 
 	async def resolve_leaver_queue(self, ctx):
 		room = here(ctx)
-		for player in room.queued_leavers:
-			await self.unjoin(ctx, player)
+		if room.queued_leavers:
+			await self.unjoin(ctx, *room.queued_leavers)
