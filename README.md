@@ -23,7 +23,7 @@ If you want to play, write `!join` in the game's channel. Write `!help` to show 
 
 ### Rules
 
-Shibboleth (aka Castlefall) is a hidden-team word game for 4 to 12 players. It's kind-of like Codenames, Spyfall, and Castle of the Devil. A round takes about 5-20 minutes.
+Shibboleth (aka Castlefall) is a fast-paced hidden-team word game for 4 to 12 players. It's kind-of like Codenames, Spyfall, and Castle of the Devil. A round takes about 5-20 minutes.
 
 You are given a secret word that only you know. Half the players get one secret word and half have another. For example, in a five-player game, three players might have "banana" and two might have "skateboard". 
 
