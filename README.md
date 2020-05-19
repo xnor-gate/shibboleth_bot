@@ -82,7 +82,7 @@ When making a team guess, it's recommend to use Discord's user autocomplete by t
 
 Use `@username` to direct your message to someone, such as to indicate that your message is aimed at them. You can reply to a message of theirs by clicking the `...` menu on their message on it and choosing `Quote`, such as to indicate that your clue confirms you understand their clue.
 
-You might want to use Compact Mode when playing, which makes messages take up less space so you can see more clues. Set this by going to the setting gear next to your user name at the bottom, under `App settings` click `Appearance`, then check `Compact`.
+You might want to choose "Compact" for the Discord appearance when playing to make clues take up less space so you can see more on screen. Set this by clicking to the settings gear next to your user name at the bottom left, click `Appearance` under `App settings`, and check `Compact`.
 
 #### Reactions
 
