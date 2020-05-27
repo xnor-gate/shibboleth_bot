@@ -1,6 +1,6 @@
 # Shibboleth bot
 
-This is a Discord bot to play the hidden-team word game Shibboleth remotely via real-time text on the [Shibboleth discord server](https://discord.gg/ahu4tt).
+This is a Discord bot to play the hidden-team word game Shibboleth remotely via real-time text on the [Shibboleth discord server](https://discord.gg/2SeRD8t).
 
 ### Table of Contents
 1. [Using the bot](#using-the-bot)
@@ -23,7 +23,7 @@ If you want to play, write `!join` in the game's channel. Write `!help` to show 
 
 ### Rules
 
-Shibboleth (aka Castlefall) is a hidden-team word game for 4 to 12 players. It's kind-of like Codenames, Spyfall, and Castle of the Devil. A round takes about 5-20 minutes.
+Shibboleth (aka Castlefall) is a fast-paced hidden-team word game for 4 to 12 players. It's kind-of like Codenames, Spyfall, and Castle of the Devil. A round takes about 5-15 minutes.
 
 You are given a secret word that only you know. Half the players get one secret word and half have another. For example, in a five-player game, three players might have "banana" and two might have "skateboard". 
 
@@ -51,7 +51,7 @@ In games with many players, guessing your exact team is hard, so there's an opti
 
 ## Playing on Discord
 
-You can play on the [Shibboleth discord server](https://discord.gg/ahu4tt). Just follow the link, click to accept the invite, and type in a name to show for you. If Discord asks for your e-mail to link your account, you can ignore this by clicking outside the prompt.
+You can play on the [Shibboleth discord server](https://discord.gg/2SeRD8t). Just follow the link, click to accept the invite, and type in a name to show for you. If Discord asks for your e-mail to link your account, you can ignore this by clicking outside the prompt.
 
 The bot automatically sends players their secret words and resolves guesses. Write `!help` to see the list of bot commands. You can play with your friends online at any time. If the Shibboleth user doesn't appear as online under "Bot", it must be offline -- please let the maintainer know.
 
@@ -82,7 +82,7 @@ When making a team guess, it's recommend to use Discord's user autocomplete by t
 
 Use `@username` to direct your message to someone, such as to indicate that your message is aimed at them. You can reply to a message of theirs by clicking the `...` menu on their message on it and choosing `Quote`, such as to indicate that your clue confirms you understand their clue.
 
-You might want to use Compact Mode when playing, which makes messages take up less space so you can see more clues. Set this by going to the setting gear next to your user name at the bottom, under `App settings` click `Appearance`, then check `Compact`.
+You might want to choose "Compact" for the Discord appearance when playing to make clues take up less space so you can see more on screen. Set this by clicking to the settings gear next to your user name at the bottom left, click `Appearance` under `App settings`, and check `Compact`.
 
 #### Reactions
 
