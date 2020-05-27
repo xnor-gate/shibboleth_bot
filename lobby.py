@@ -16,7 +16,7 @@ class Lobby(commands.Cog):
 
 	@commands.command(
 		brief="Mark yourself or others as playing",
-		description="Mark yourself as playing. Or, call with one or more usernames space-separated to mark them as playing.",
+		description="Mark yourself as playing. Or, call with one or more usernames space-separated to mark them as playing. Joining a game doesn't automatically unjoin you from other games; you have to unjoin there yourself.",
 		aliases=["j"],
 	)
 	async def join(self, ctx, *members: discord.Member):
@@ -80,8 +80,8 @@ class Lobby(commands.Cog):
 				await remove_player(member_or_role)
 
 	@commands.command(
-		brief="Start a new round with the players currently joined",
-		description="Start a new round with the players who joined.",
+		brief="Start a new round with the joined players",
+		description="Start a new round with the players who joined. Any players who were in last game will be included unless they have unjoined.",
 		aliases=["s"],
 	)
 	async def start(self, ctx):

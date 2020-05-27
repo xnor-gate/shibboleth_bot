@@ -12,18 +12,22 @@ class Options(commands.Cog):
 		return no_dm_predicate(ctx)
 
 	@commands.command(
-		brief="Set or show number of words",
-		description="Set the number of words. Or, call without a number to show the current value. Changes during a round only affect later round.",
+		brief="Set or show number of words (0 for twice the player count)",
+		description="Set the number of words. Or, call without a number to show the current value. A value of 0 means twice as many words as players (min 6, max 18). Changes during a round only affect later round.",
 		aliases=["nw"],
 	)
 	async def numwords(self, ctx, *, num: int = None):
 		if num is not None:
-			if not 2 <= num <= 100:
+			if not ((2 <= num <= 100) or (num == 0)):
 				raise commands.CheckFailure(f"Invalid number of words {num}.")
 			here(ctx).num_words = num
 
 		num = here(ctx).num_words
-		await ctx.send(f"Number of words: {num}")
+
+		if num == 0:
+			await ctx.send(f"Number of words: 0 (automatically double the number of players)")
+		else:
+			await ctx.send(f"Number of words: {num}")
 
 	@commands.command(
 		brief="Set or show team guess size for large games",

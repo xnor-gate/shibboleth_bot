@@ -36,7 +36,7 @@ class Round(commands.Cog):
 		if here(ctx).game.team_guess_size is not None:
 			team_guess_size_comment = f", of which you guess a subset of {here(ctx).game.team_guess_size} (counting yourself)"
 		else:
-			team_guess_size_comment = ""
+			team_guess_size_comment = ". Guess your whole team exactly"
 
 		team_sizes_message = f"Teams are of size {team_sizes_string}{team_guess_size_comment}."
 		await ctx.send(team_sizes_message)

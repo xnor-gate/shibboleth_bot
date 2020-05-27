@@ -17,7 +17,7 @@ class Room:
 
 		self.round_num = 1
 
-		self.num_words = 14
+		self.num_words = 0
 		self.max_guess = 3
 		self.veto_duration = 45
 
@@ -35,7 +35,12 @@ class Room:
 		else:
 			team_guess_size = self.max_guess
 
-		return Shibboleth(self.room_players, self.num_words, include_veto_phase=include_veto_phase, team_guess_size=team_guess_size)
+		if self.num_words == 0:
+			num_words = min(max(2 * num_players, 6), 18)
+		else:
+			num_words = self.num_words
+
+		return Shibboleth(self.room_players, num_words, include_veto_phase=include_veto_phase, team_guess_size=team_guess_size)
 
 	def start_round(self):
 		if self.in_round:

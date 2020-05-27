@@ -1044,7 +1044,6 @@ machine
 macho
 magazine
 magic
-magician
 magnet
 mail
 mailbox
@@ -1789,6 +1788,7 @@ test
 text
 thanks
 theater
+thermometer
 thief
 thirteen
 thought
