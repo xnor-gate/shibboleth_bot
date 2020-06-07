@@ -130,7 +130,7 @@ class Round(commands.Cog):
 			# Full resolve
 			correct = here(ctx).game.check_team_guess(guesser, guessed_players)
 			correct_string = {True: "right", False: "wrong"}[correct]
-			await ctx.send(f"**{guesser.display_name}** (team **{here(ctx).game.get_secret_word(guesser)}**) guessed {guessed_players_string} for the their team, which is __{correct_string}__.  Winning team: **{here(ctx).game.winning_word}**")
+			await ctx.send(f"**{guesser.display_name}** (team **{here(ctx).game.get_secret_word(guesser)}**) guessed {guessed_players_string} for their team, which is __{correct_string}__.  Winning team: **{here(ctx).game.winning_word}**")
 			await self.reveal_teams(ctx)
 			await self.end_round_and_clean_up(ctx)
 
@@ -143,7 +143,7 @@ class Round(commands.Cog):
 		assert here(ctx).game.include_veto_phase
 
 		veto_time = here(ctx).veto_duration
-		await ctx.send(f"You have **{veto_time} seconds** to guess a word and override the preceding team guess, or it will resolve.")
+		await ctx.send(f"You have **{veto_time} seconds** to guess a word and override this team guess, or it will resolve.")
 
 		warning_time = 10
 

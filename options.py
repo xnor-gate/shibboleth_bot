@@ -13,7 +13,7 @@ class Options(commands.Cog):
 
 	@commands.command(
 		brief="Set or show number of words (0 for twice the player count)",
-		description="Set the number of words. Or, call without a number to show the current value. A value of 0 means twice as many words as players (min 6, max 18). Changes during a round only affect later round.",
+		description="Set the number of words. Or, call without a number to show the current value. A value of 0 means twice as many words as players (min 8, max 16). Changes during a round only affect later round.",
 		aliases=["nw"],
 	)
 	async def numwords(self, ctx, *, num: int = None):

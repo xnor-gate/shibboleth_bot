@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 
 from help import show_help_page, show_command_help
 
@@ -29,6 +30,34 @@ class Info(commands.Cog):
 	async def howguess(self, ctx):
 		guess_message = "Use `!gw word` to guess the opposing team's word.\nUse `!gt [teammates]` to guess your team. Write their names space-separated; you can use `@` to autocomplete. You can omit yourself."
 		await ctx.send(guess_message)
+
+	@commands.command(
+		brief="Get notified when people want to play",
+		description="Add yourself to the \"Notify on Games\" role, which can be pinged to alert those interested in joining games. This gets pinged when someone messages `@Notify of Games`, not automatically when there's a game.",
+		aliases=["n"],
+	)
+	async def notify(self, ctx):
+		member = ctx.author
+		notify_role = discord.utils.get(ctx.guild.roles, name="Notify of games")
+		if notify_role in member.roles:
+			await ctx.send(f"{member.mention} already has \"Notify on Games\" role.")
+		else:
+			await member.add_roles(notify_role)
+			await ctx.send(f"{member.mention} granted \"Notify on Games\" role.")
+
+	@commands.command(
+		brief="Remove yourself from being notified",
+		description="Remove yourself from the \"Notify on Games\" role.",
+		aliases=["un"],
+	)
+	async def unnotify(self, ctx):
+		member = ctx.author
+		notify_role = discord.utils.get(ctx.guild.roles, name="Notify of games")
+		if notify_role not in member.roles:
+			await ctx.send(f"{member.mention} already doesn't have \"Notify on Games\" role.")
+		else:
+			await member.remove_roles(notify_role)
+			await ctx.send(f"{member.mention} removed from \"Notify on Games\" role.")
 
 	@commands.command(
 		brief="Show useful Discord shortcuts",

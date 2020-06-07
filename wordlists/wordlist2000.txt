@@ -916,10 +916,9 @@ joke
 joker
 journalist
 judge
+juggle
 juice
-juicer
 jump
-jumper
 jumprope
 jungle
 junk
@@ -1029,6 +1028,7 @@ locust
 log
 logo
 lollipop
+loop
 loss
 love
 loveseat
@@ -1104,7 +1104,6 @@ mine
 minimum
 minion
 minivan
-minotaur
 minute
 mirror
 miss
@@ -1170,7 +1169,6 @@ nickel
 night
 nightmare
 nine
-noah
 noise
 noodles
 north
@@ -1638,7 +1636,7 @@ soil
 son
 song
 sonnet
-sorceror
+sorcerer
 sort
 sound
 soup
@@ -1758,6 +1756,7 @@ taco
 tadpole
 tail
 tale
+tango
 tank
 target
 taste
@@ -1828,6 +1827,7 @@ top
 topic
 torch
 tornado
+torrent
 tourist
 tournament
 tow

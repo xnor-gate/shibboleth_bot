@@ -36,7 +36,7 @@ class Room:
 			team_guess_size = self.max_guess
 
 		if self.num_words == 0:
-			num_words = min(max(2 * num_players, 6), 18)
+			num_words = min(max(2 * num_players, 8), 16)
 		else:
 			num_words = self.num_words
 
