@@ -73,22 +73,22 @@ class Round(commands.Cog):
 	async def guessword(self, ctx, word: str):
 		guesser = ctx.author
 
-		if word not in here(ctx).game.words:
+		room = here(ctx)
+		game = room.game
+
+		if word not in game.words:
 			raise commands.CheckFailure(f"`{word}` not in word list. Check spelling and capitalization. You can edit your message or enter a new one.")
 
-		correct = here(ctx).resolve_word_guess(guesser, word)
+		correct = room.resolve_word_guess(guesser, word)
 		correct_string = {True: "right", False: "wrong"}[correct]
-		await ctx.send(f"**{guesser.display_name}** (team **{here(ctx).game.get_secret_word(guesser)}**) guessed **{word}** for the opposing word, which is __{correct_string}__. Winning team: **{here(ctx).game.winning_word}**")
+		await ctx.send(f"**{guesser.display_name}** (team **{game.get_secret_word(guesser)}**) guessed **{word}** for the opposing word, which is __{correct_string}__. Winning team: **{game.winning_word}**")
 
 		# If this overrode a veto, say whether it would have succeeded
-		if here(ctx).game.in_veto_phase:
-			orig_guesser, orig_guessed_players = here(ctx).game.vetoable_team_guess
+		if game.in_veto_phase:
+			orig_guesser, orig_guessed_players = game.vetoable_team_guess
+			correctness_message = self.team_guess_correctness_message(ctx, orig_guesser, orig_guessed_players, is_hypothetical=True)
 
-			orig_guessed_players_string = names_list_string(orig_guessed_players)
-
-			correct = here(ctx).game.check_team_guess(orig_guesser, orig_guessed_players)
-			correct_string = {True: "right", False: "wrong"}[correct]
-			await ctx.send(f"(The original guess by **{orig_guesser.display_name}** (team **{here(ctx).game.get_secret_word(orig_guesser)}**) of {orig_guessed_players_string} would have been _{correct_string}_.)")
+			await ctx.send(correctness_message)
 
 		await self.reveal_teams(ctx)
 		await self.end_round_and_clean_up(ctx)
@@ -121,21 +121,62 @@ class Round(commands.Cog):
 
 		await self.guess_team_helper(ctx, guesser, guessed_players)
 
+	def team_guess_correctness_message(self, ctx, guesser, guessed_players, is_hypothetical=False):
+		game = here(ctx).game
+		guesser_word = game.get_secret_word(guesser)
+		correct_team = game.players_with_word(guesser_word)
+
+		def player_name_formatted_by_correctness(player):
+
+			if player in correct_team:
+				# Bold
+				return f"**{player.display_name}**"
+			else:
+				# Bold italics
+				return f"***{player.display_name}***"
+
+		missing_players = set(correct_team) - set(guessed_players)
+		if bool(missing_players):
+			must_guess_exact = game.team_guess_size is None
+			if must_guess_exact:
+				label = "missing"
+			else:
+				label = "unguessed"
+			missing_player_string = f" ({label}: " + ", ".join([f"**{player.display_name}**" for player in missing_players]) + ")"
+		else:
+			missing_player_string = ""
+
+		guessed_players_marked_string = "[" + ", ".join([player_name_formatted_by_correctness(player) for player in guessed_players]) + "]"
+
+		correct = game.check_team_guess(guesser, guessed_players)
+		correct_string = {True: "right", False: "wrong"}[correct]
+		winning_word = {True: guesser_word, False: game.opposing_word(guesser_word)}[correct]
+
+		if not is_hypothetical:
+			correctness_message = f"**{guesser.display_name}** (team **{guesser_word}**) guessed {guessed_players_marked_string} for their team, which is __{correct_string}__{missing_player_string}. Winning team: **{winning_word}**"
+		else:
+			correctness_message = f"(The original guess by **{guesser.display_name}** (team **{guesser_word}**) of {guessed_players_marked_string} would have been __{correct_string}__{missing_player_string}, with winning team **{winning_word}**)"
+		return correctness_message
+
 	async def guess_team_helper(self, ctx, guesser, guessed_players, veto_timeout_override=False):
 
-		here(ctx).resolve_team_guess(guesser, guessed_players, veto_timeout_override=veto_timeout_override)
-		guessed_players_string = names_list_string(guessed_players)
+		room = here(ctx)
+		game = room.game
 
-		if (not here(ctx).game.include_veto_phase) or veto_timeout_override:
+		room.resolve_team_guess(guesser, guessed_players, veto_timeout_override=veto_timeout_override)
+
+		if (not game.include_veto_phase) or veto_timeout_override:
 			# Full resolve
-			correct = here(ctx).game.check_team_guess(guesser, guessed_players)
-			correct_string = {True: "right", False: "wrong"}[correct]
-			await ctx.send(f"**{guesser.display_name}** (team **{here(ctx).game.get_secret_word(guesser)}**) guessed {guessed_players_string} for their team, which is __{correct_string}__.  Winning team: **{here(ctx).game.winning_word}**")
+
+			correctness_message = self.team_guess_correctness_message(ctx, guesser, guessed_players)
+
+			await ctx.send(correctness_message)
 			await self.reveal_teams(ctx)
 			await self.end_round_and_clean_up(ctx)
 
 		else:
 			# Enter veto phase
+			guessed_players_string = names_list_string(guessed_players)
 			await ctx.send(f"**{guesser.display_name}** guessed {guessed_players_string} for the their team. Entering veto phase.")
 			await self.enter_veto_phase(ctx)
 
@@ -175,7 +216,7 @@ class Round(commands.Cog):
 
 		words_with_winner_first = sorted(words, key=is_winning_word, reverse=True)
 		team_strings = [f"**{word}**: {names_string(here(ctx).game.teams[word])}" for word in words_with_winner_first]
-		await ctx.send("\n".join(team_strings))
+		await ctx.send("   ||   ".join(team_strings))
 
 	async def end_round_and_clean_up(self, ctx):
 		here(ctx).end_round()
