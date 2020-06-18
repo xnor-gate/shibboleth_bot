@@ -10,6 +10,8 @@ async def show_help_page(ctx):
 	for cog_name, cog in bot.cogs.items():
 		message_lines.append(f"{cog_name}:")
 		for command in cog.get_commands():
+			if command.hidden:
+				continue
 			short_command = "!" + min(command.aliases, key=len) if command.aliases else ""
 			explanation = command.brief
 

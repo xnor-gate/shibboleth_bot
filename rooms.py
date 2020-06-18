@@ -1,4 +1,5 @@
 import discord
+import re
 
 from room import Room
 
@@ -27,21 +28,24 @@ def here(ctx):
 	except KeyError:
 		raise MissingChannelError(f"Channel {ctx.channel} is not initialized. Probably just wait a few seconds...")
 
+PLAYING_ROLES_IN_CHANNELS = {
+	"shibboleth-game": "Playing",
+	"shibboleth-pictures": "PlayingPics",
+	"bot-testing": "Testing",
+}
+
 def playing_role_in_channel(channel):
 	channel_name = channel.name
-	if "shibboleth-game" in channel_name:
-		suffix = channel_name[len("shibboleth-game"):]
-		role_name = "Playing" + suffix
-	elif "shibboleth-pictures" in channel_name:
-		suffix = channel_name[len("shibboleth-pictures"):]
-		role_name = "PlayingPics" + suffix
-	elif "bot-testing" in channel_name:
-		suffix = channel_name[len("bot-testing"):]
-		role_name = "Testing" + suffix
-	else:
-		role_name = "Misc"
+
+	channel_name_split = re.match(r"(?P<prefix>[^0-9]*)(?P<suffix>.*)$", channel_name)
+
+	channel_name_prefix = channel_name_split.group('prefix')
+	suffix = channel_name_split.group('suffix')
+
+	role_prefix = PLAYING_ROLES_IN_CHANNELS.get(channel_name_prefix, "Shibboleth")
+	role_name = role_prefix + suffix
 
 	role = discord.utils.get(channel.guild.roles, name=role_name)
 
-	assert role is not None, f"Can't find role {role_name} for channel {channel}"
+	assert role is not None, f"Can't find role {role_name} for channel {channel}. If needed, make a role with that name, or modify the PLAYING_ROLES_IN_CHANNELS dictionary in the code."
 	return role

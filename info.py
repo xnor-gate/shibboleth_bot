@@ -1,7 +1,8 @@
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
 from help import show_help_page, show_command_help
+from rooms import here
 
 
 class Info(commands.Cog):
@@ -30,6 +31,10 @@ class Info(commands.Cog):
 	async def howguess(self, ctx):
 		guess_message = "Use `!gw word` to guess the opposing team's word.\nUse `!gt [teammates]` to guess your team. Write their names space-separated; you can use `@` to autocomplete. You can omit yourself."
 		await ctx.send(guess_message)
+
+		# If not in DM and round is ongoing, display additional info
+		if not isinstance(ctx.channel, discord.channel.DMChannel) and here(ctx).in_round:
+			await self.bot.get_cog("Status").show_team_sizes_message(ctx)
 
 	@commands.command(
 		brief="Get notified when people want to play",

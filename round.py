@@ -25,23 +25,13 @@ class Round(commands.Cog):
 			await self.message_player_secret_word(ctx, player)
 
 	async def display_round_intro(self, ctx):
-		assert here(ctx).in_round, "Can't display intro with no round ongoing."
+		room = here(ctx)
+		assert room.in_round, "Can't display intro with no round ongoing."
 
-		player_mention_string = names_string(here(ctx).game.players)
-		num_players = len(here(ctx).game.players)
-		await ctx.send(f"**Round {here(ctx).round_num}**\nPlayers ({num_players}): {player_mention_string}")
+		await ctx.send(f"__Round {room.round_num}__")
+		await self.bot.get_cog("Status").players(ctx)
 
-		team_sizes_string = " or ".join([str(size) for size in sorted(set(here(ctx).game.team_sizes))])
-
-		if here(ctx).game.team_guess_size is not None:
-			team_guess_size_comment = f", of which you guess a subset of {here(ctx).game.team_guess_size} (counting yourself)"
-		else:
-			team_guess_size_comment = ". Guess your whole team exactly"
-
-		team_sizes_message = f"Teams are of size {team_sizes_string}{team_guess_size_comment}."
-		await ctx.send(team_sizes_message)
-
-		start_message = "You've been messaged your secret word. Use `!howguess` to show the commands to guess. Clue away!"
+		start_message = "You've been messaged your secret word -- to see it, click the Home icon in the very top left. Use `!howguess` to show the commands to guess. Clue away!"
 		await ctx.send(start_message)
 
 	def wordlist_formatted_string(self, ctx):
@@ -153,9 +143,9 @@ class Round(commands.Cog):
 		winning_word = {True: guesser_word, False: game.opposing_word(guesser_word)}[correct]
 
 		if not is_hypothetical:
-			correctness_message = f"**{guesser.display_name}** (team **{guesser_word}**) guessed {guessed_players_marked_string} for their team, which is __{correct_string}__{missing_player_string}. Winning team: **{winning_word}**"
+			correctness_message = f"**{guesser.display_name}** (team **{guesser_word}**) guessed {guessed_players_marked_string} for their team, which is __{correct_string}__{missing_player_string}. Winning team: **{winning_word}**."
 		else:
-			correctness_message = f"(The original guess by **{guesser.display_name}** (team **{guesser_word}**) of {guessed_players_marked_string} would have been __{correct_string}__{missing_player_string}, with winning team **{winning_word}**)"
+			correctness_message = f"(The original guess by **{guesser.display_name}** (team **{guesser_word}**) of {guessed_players_marked_string} would have been __{correct_string}__{missing_player_string}, with winning team **{winning_word}**.)"
 		return correctness_message
 
 	async def guess_team_helper(self, ctx, guesser, guessed_players, veto_timeout_override=False):
@@ -177,7 +167,7 @@ class Round(commands.Cog):
 		else:
 			# Enter veto phase
 			guessed_players_string = names_list_string(guessed_players)
-			await ctx.send(f"**{guesser.display_name}** guessed {guessed_players_string} for the their team. Entering veto phase.")
+			await ctx.send(f"**{guesser.display_name}** guessed {guessed_players_string} for their team. Entering veto phase.")
 			await self.enter_veto_phase(ctx)
 
 	async def enter_veto_phase(self, ctx):
@@ -227,7 +217,8 @@ class Round(commands.Cog):
 	@commands.command(
 		brief="Pause the round, preventing guessing",
 		description="Pause the round, preventing guessing. Use `!unpause` to resume.",
-		aliases=["p"],
+		aliases=[],
+		hidden=True,
 	)
 	@during_round()
 	async def pause(self, ctx):
@@ -237,7 +228,8 @@ class Round(commands.Cog):
 	@commands.command(
 		brief="Unpause the round, allowing guessing once again",
 		description="Unpause the round, allowing guessing once again.",
-		aliases=["up"],
+		aliases=[],
+		hidden=True,
 	)
 	@during_round()
 	async def unpause(self, ctx):

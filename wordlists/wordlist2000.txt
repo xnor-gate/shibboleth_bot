@@ -820,7 +820,6 @@ highchair
 highlight
 highway
 hill
-hippo
 hippopotamus
 historian
 history

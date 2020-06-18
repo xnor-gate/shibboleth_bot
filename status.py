@@ -35,7 +35,7 @@ class Status(commands.Cog):
 	@commands.command(
 		brief="Show list of players",
 		description="Display a list of players.",
-		aliases=["pl"],
+		aliases=["p", "pl"],
 	)
 	async def players(self, ctx):
 		room = here(ctx)

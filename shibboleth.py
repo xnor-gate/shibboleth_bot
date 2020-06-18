@@ -1,6 +1,6 @@
 import random
 
-from name_utils import names_of, names_string
+from name_utils import names_of, names_string_formatted
 
 
 class GameActionError(Exception):
@@ -10,7 +10,7 @@ class GameInitializationError(Exception):
 	pass
 
 class Shibboleth:
-	def __init__(self, players, num_words, include_veto_phase=True, team_guess_size=None):
+	def __init__(self, players, num_words, include_veto_phase=True, team_guess_size=None, skew_chance=0.0):
 		self.players = players
 		try:
 			self.player_names = names_of(players)
@@ -36,10 +36,25 @@ class Shibboleth:
 
 		num_players = len(players)
 
-		self.team_sizes = [num_players//2, (num_players+1)//2]
+		self.skew_chance = skew_chance
+		self.might_skew = skew_chance > 0
+
+		if self.might_skew:
+			if team_guess_size is not None:
+				raise GameInitializationError("Cannot make game with both skew chance and max_guess active.")
+			if num_players < 2:
+				raise GameInitializationError("Cannot make game with skew chance and <2 players.")
+
+		skew = random.random() < skew_chance
+		self.team_sizes = [num_players//2 - skew, (num_players+1)//2 + skew]
 		assert sum(self.team_sizes) == num_players, "Sum of team sizes doesn't match number of players"
 
-		if (team_guess_size is not None) and (team_guess_size > min(self.team_sizes)):
+		min_possible_team_size = num_players // 2 - self.might_skew
+		max_possible_team_size = (num_players+1)//2 + self.might_skew
+
+		self.possible_team_sizes = list(range(min_possible_team_size, max_possible_team_size + 1))
+
+		if (team_guess_size is not None) and (team_guess_size > min(self.possible_team_sizes)):
 			raise GameInitializationError(f"Team guess size {team_guess_size} is too large for {len(players)} players.")
 
 		secret_words_list = [word for (word, team_size) in zip(self.secret_words, self.team_sizes) for _ in range(team_size)]
@@ -120,7 +135,7 @@ class Shibboleth:
 		if self.team_guess_size is not None:
 			return [self.team_guess_size]
 		else:
-			return self.team_sizes
+			return self.possible_team_sizes
 
 	@property
 	def valid_guess_sizes_string(self):
@@ -135,7 +150,7 @@ class Shibboleth:
 			raise GameActionError("Duplicate players guessed")
 		if not (guessed_team_set <= set(self.players)):
 			extra_players = guessed_team_set - set(self.players)
-			extra_player_names = names_string(extra_players)
+			extra_player_names = names_string_formatted(extra_players)
 			raise GameActionError(f"Non-players guessed in {extra_player_names}")
 		if player not in guessed_team_set:
 			raise GameActionError("Player guessed a team without themselves")
@@ -197,7 +212,7 @@ class Shibboleth:
 
 	@property
 	def player_name_string(self):
-		player_names = names_string(self.players)
+		player_names = names_string_formatted(self.players)
 		return f"Players ({len(self.players)}): {player_names}"
 
 	@property
@@ -212,7 +227,7 @@ class Shibboleth:
 			info_strings.append(f"Winner: {self.winning_word}")
 		if self.phase == "veto":
 			veto_player, veto_team = self.vetoable_team_guess
-			info_strings.append(f"\tVetoable guess: {veto_player.display_name} guessing {names_string(veto_team)}")
+			info_strings.append(f"\tVetoable guess: {veto_player.display_name} guessing {names_string_formatted(veto_team)}")
 
 		return info_strings
 
