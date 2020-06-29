@@ -1,43 +1,46 @@
-class CommandError(Exception):
-	pass
+import discord
+from discord.ext import commands
 
-async def show_help_page(ctx):
-	bot = ctx.bot
-	message_lines = []
+from help_command import show_help_page, show_command_help
+from rooms import here
 
-	prefix = "For game rules and Discord tips, see <http://github.com/xnor-gate/shibboleth_bot/blob/master/README.md>"
+class Help(commands.Cog):
+	def __init__(self, bot):
+		self.bot = bot
 
-	for cog_name, cog in bot.cogs.items():
-		message_lines.append(f"{cog_name}:")
-		for command in cog.get_commands():
-			if command.hidden:
-				continue
-			short_command = "!" + min(command.aliases, key=len) if command.aliases else ""
-			explanation = command.brief
+	@commands.command(
+		brief="Show this help page, or help for the given command",
+		description="Show this help page. If called with a command, show details and usage info for it.",
+		aliases=["h"],
+	)
+	async def help(self, ctx, command=None):
+		if command is None:
+			await show_help_page(ctx)
+		else:
+			await show_command_help(ctx, command)
 
-			command_line = f"  !{command.name:<12}{short_command:<7}{explanation}"
-			message_lines.append(command_line)
+	@commands.command(
+		brief="Show reminder of guess commands",
+		description="Show a reminder of the instructions to guess a word.",
+		aliases=["hg"],
+	)
+	async def howguess(self, ctx):
+		guess_message = "Use `!gw word` to guess the opposing team's word.\nUse `!gt [teammates]` to guess your team. Write their names space-separated; you can use `@` to autocomplete. You can omit yourself."
+		await ctx.send(guess_message)
 
-	message_lines.append("")
-	message_lines.append("Put any arguments to a command space-separated like \"!gw apple\" or \"!gt @Alice @Bob\".\nCall !help on a command for more info on using it.")
+		# If not in DM and round is ongoing, display additional info
+		if not isinstance(ctx.channel, discord.channel.DMChannel) and here(ctx).in_round:
+			await self.bot.get_cog("Status").show_team_sizes_message(ctx)
 
-	message = "\n".join(message_lines)
-	boxed_message = prefix + "\n" + f"```{message}```"
-	await ctx.send(boxed_message, embed=None)
-
-async def show_command_help(ctx, command_name):
-	command_name = command_name.lstrip("!")
-
-	all_commands = ctx.bot.all_commands
-	if command_name not in all_commands.keys():
-		raise CommandError(f"Unknown command")
-
-	command = all_commands[command_name]
-
-	name = command.name
-	short_command = "!" + min(command.aliases, key=len) if command.aliases else ""
-
-	desc = command.description
-	command_signature_string = " " + command.signature if command.signature else ""
-
-	await ctx.send(f"`!{name}{command_signature_string}`: {desc} `{short_command}` for short.")
+	@commands.command(
+		brief="Show useful Discord shortcuts",
+		description="Show useful Discord keyboard shortcuts.",
+		aliases=["sh"],
+	)
+	async def shortcuts(self, ctx):
+		lines = []
+		lines.append("`Ctrl + P`: Show pinned wordlist")
+		lines.append("`Ctrl + E`: Open emoji (reactions) menu")
+		lines.append("`Ctrl + F`: Search recent messages")
+		lines.append("Compact view is recommended to see more clues at once (`User Settings > App Settings > Appearance`)")
+		await ctx.send("\n".join(lines))

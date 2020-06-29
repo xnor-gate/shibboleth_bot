@@ -26,38 +26,6 @@ async def during_round_predicate(ctx):
 def during_round():
 	return commands.check(during_round_predicate)
 
-async def not_during_round_predicate(ctx):
-	if round_ongoing(ctx):
-		raise commands.CheckFailure("Can't do that during a round.")
-	return True
-
-def not_during_round():
-	return commands.check(not_during_round_predicate)
-
-
-# def round_paused(ctx):
-# 	return round_ongoing(ctx) and here(ctx).paused
-#
-# async def not_during_pause_predicate(ctx):
-# 	if round_paused(ctx):
-# 		raise commands.CheckFailure("Can't do that while round is paused.")
-# 	return True
-#
-# def not_during_pause():
-# 	return commands.check(not_during_pause_predicate)
-#
-#
-# def round_veto_phase(ctx):
-# 	return round_ongoing(ctx) and here(ctx).game.in_veto_phase
-#
-# async def not_during_veto_predicate(ctx):
-# 	if round_veto_phase(ctx):
-# 		raise commands.CheckFailure("Can't do that during veto phase.")
-# 	return True
-#
-# def not_during_veto():
-# 	return commands.check(not_during_veto_predicate)
-
 
 def is_by_player(ctx):
 	return round_ongoing(ctx) and (ctx.author in here(ctx).game.players)

@@ -112,6 +112,7 @@ class Room:
 		info_strings = []
 
 		info_strings.append(f"Room: {self.room_name}")
+		info_strings.append(f"Playing role: {self.playing_role.name}")
 		info_strings.append(f"Round {self.round_num}")
 		info_strings.append(self.player_name_string)
 		if bool(self.queued_joiners):

@@ -16,7 +16,7 @@ class Options(commands.Cog):
 			await ctx.send("(This change will take effect next round.)")
 
 	@commands.command(
-		brief="Set or show number of words (0 for twice the player count)",
+		brief="Set or show number of words (0 for default for player count)",
 		description="Set the number of words. Or, call without a number to show the current value. A value of 0 means twice as many words as players (min 8, max 16). Changes during a round only affect later round.",
 		aliases=["nw"],
 	)
@@ -52,7 +52,7 @@ class Options(commands.Cog):
 	@commands.command(
 		brief="Set or show veto round duration",
 		description="Set the veto round duration in seconds. Zero means no veto round. Call without a number to show the current value.",
-		aliases=["vd"],
+		aliases=["vd", "vt", "vetotime"],
 	)
 	async def vetodur(self, ctx, *, duration: int = None):
 		if duration is not None:
@@ -85,7 +85,9 @@ class Options(commands.Cog):
 		skew_chance = here(ctx).skew_chance
 
 		if skew_chance == 0.0:
-			description = "0 (never skew)"
+			description = "0% (never skew)"
+		elif skew_chance == 1.0:
+			description = "100% (always skew -- did you mean 0 maybe?)"
 		else:
 			description = f"{skew_chance:.1%}"
 

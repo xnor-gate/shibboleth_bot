@@ -22,7 +22,6 @@ alcohol
 alligator
 ambulance
 analysis
-analyst
 anchor
 angel
 anger
@@ -48,11 +47,9 @@ armadillo
 armor
 army
 arrow
-art
 article
 artist
 ash
-aspect
 assistant
 astronaut
 atmosphere
@@ -100,7 +97,6 @@ basket
 basketball
 bass
 bat
-bath
 bathroom
 bathtub
 battery
@@ -191,6 +187,7 @@ boxer
 boy
 bracelet
 braces
+brag
 braid
 brain
 branch
@@ -338,7 +335,6 @@ cloak
 clock
 clog
 close
-closed
 closet
 clothes
 cloud
@@ -359,8 +355,7 @@ collar
 college
 comb
 comet
-comfort
-comfy
+comfortable
 comment
 committee
 community
@@ -447,7 +442,7 @@ damage
 dance
 dandelion
 darkness
-darts
+dart
 dash
 dashboard
 data
@@ -467,6 +462,7 @@ decision
 deep
 deer
 degree
+dew
 delay
 delivery
 delta
@@ -541,8 +537,6 @@ dresser
 dressing
 drink
 drip
-dripping
-drive
 driver
 drone
 drop
@@ -556,7 +550,9 @@ dunk
 dust
 dustpan
 dwarf
+dynamite
 eagle
+early
 earring
 ears
 earth
@@ -570,6 +566,7 @@ economy
 edge
 editor
 eel
+eerie
 effort
 egg
 eggplant
@@ -616,7 +613,7 @@ face
 fact
 factory
 fade
-failure
+fail
 fall
 family
 fan
@@ -646,7 +643,6 @@ firearm
 firecracker
 firefighter
 firefly
-fireside
 fireworks
 fish
 fishbowl
@@ -661,11 +657,11 @@ flashlight
 flat
 flea
 flight
+fling
 flip
 float
 flood
 floor
-florist
 flour
 flower
 flute
@@ -768,6 +764,7 @@ groom
 ground
 group
 grow
+grumpy
 guest
 guide
 guitar
@@ -815,6 +812,7 @@ helmet
 hen
 herbs
 hermit
+hiccup
 hide
 highchair
 highlight
@@ -831,7 +829,6 @@ holiday
 home
 homeless
 homer
-homerun
 homework
 honey
 honeycomb
@@ -850,7 +847,7 @@ hose
 hospital
 host
 hot
-hotdog
+hot-dog
 hot-tub
 hotel
 hour
@@ -904,8 +901,7 @@ jellybean
 jellyfish
 jersey
 jester
-jeweler
-jewelry
+jewel
 jigsaw
 job
 jockey
@@ -981,6 +977,7 @@ leash
 leather
 leave
 lecture
+legend
 legs
 lemon
 lemonade
@@ -1313,6 +1310,7 @@ plane
 plank
 plant
 plantation
+plaster
 plastic
 plate
 platform
@@ -1321,6 +1319,7 @@ player
 playground
 pleasure
 plow
+plum
 pocket
 pocketwatch
 poem
@@ -1413,7 +1412,6 @@ rating
 ratio
 rattlesnake
 razor
-react
 reaction
 read
 receipt
@@ -1600,6 +1598,7 @@ sky
 skylight
 skyscraper
 slap
+slate
 sled
 sleep
 sleepover
@@ -1663,6 +1662,7 @@ spool
 spoon
 sport
 spot
+splotlight
 spray
 spring
 sprinkler
@@ -1695,7 +1695,6 @@ stingray
 stock
 stocking
 stomach
-stoplight
 store
 stork
 storm
@@ -1803,6 +1802,7 @@ till
 time
 timer
 tin
+tinder
 tip
 tiptoe
 tire
@@ -1815,6 +1815,7 @@ toes
 toilet
 toll
 tomato
+tomb
 tone
 tongue
 tool

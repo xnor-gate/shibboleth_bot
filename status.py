@@ -35,7 +35,7 @@ class Status(commands.Cog):
 	@commands.command(
 		brief="Show list of players",
 		description="Display a list of players.",
-		aliases=["p", "pl"],
+		aliases=["p", "pl", "playing"],
 	)
 	async def players(self, ctx):
 		room = here(ctx)
@@ -59,7 +59,7 @@ class Status(commands.Cog):
 	@commands.command(
 		brief="Show public wordlist for this round",
 		description="Show the public list of words for this round. If users are specified, this list will be messaged to them instead.",
-		aliases=["w"],
+		aliases=["w", "wordlist"],
 	)
 	@during_round()
 	async def words(self, ctx, *members: discord.Member):

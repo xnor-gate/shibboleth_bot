@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from check import no_dm_predicate, during_round, by_player
 from name_utils import names_list_string, names_string
-from rooms import here
+from rooms import here, link_to_channel
 
 
 class Round(commands.Cog):
@@ -50,8 +50,9 @@ class Round(commands.Cog):
 
 	async def message_player_secret_word(self, ctx, player):
 		secret_word = here(ctx).game.get_secret_word(player)
+		return_url = link_to_channel(ctx.channel)
 
-		await player.send(f"Round {here(ctx).round_num}: Your secret word is **{secret_word}**")
+		await player.send(f"Round {here(ctx).round_num}: Your secret word is    **{secret_word}**    (back to #{ctx.channel.name}: {return_url})")
 
 	@commands.command(
 		brief="Guess the opposing team's word",
@@ -91,7 +92,6 @@ class Round(commands.Cog):
 	@by_player()
 	@during_round()
 	async def guessteam(self, ctx, *players: discord.Member):
-		# Call the arg players to shorten it for the signature
 		guessed_players = players
 		guessed_players = list(guessed_players)
 
