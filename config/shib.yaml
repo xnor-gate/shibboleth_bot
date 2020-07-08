@@ -1,0 +1,13 @@
+---
+# This file is the default configuration for the Shibboleth server.
+# Use as an example for creating your own instance.
+
+# See config.py for all configurable constants.
+
+playing_roles_in_channels:
+  shibboleth-game: Playing
+  shibboleth-pictures: PlayingPics
+  shibboleth: Playing Shibboleth
+  bot-testing: Testing
+
+misc_role: Playing Shibboleth

@@ -98,7 +98,7 @@ To set up the project for local development:
 1. Install dependencies (optionally in a virtualenv, if desired):
 
     ``` bash
-    $ python3 -m pip install discord
+    $ python3 -m pip install -r requirements.txt
     ```
 
 To set up a Discord server for development:
@@ -110,8 +110,8 @@ To set up a Discord server for development:
     * Create Instant Invite
     * View Channels (you can deny this for channels you don't want to the bot to see)
     * Send Messages
-    * Manage Messages  
-3. [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). See constants defined in `rooms.py` for role names. Make sure the playing role is below the role for your bot (otherwise permissions won't work).
+    * Manage Messages
+3. [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). Role names are configured in `./config`. (See `./config/shib.yaml` for an example.) Make sure the playing role is below the role for your bot (otherwise permissions won't work).
 
 Run unit tests:
 ``` bash
@@ -121,7 +121,13 @@ $ python3 -m unittest
 Start the bot:
 
 ``` bash
-$ python bot.py
+$ python3 bot.py
+```
+
+Or pass `--config` to use a custom configuration matching your server/channels. To use `./config/foo.yaml`, run:
+
+``` bash
+$ python3 bot.py --config=foo
 ```
 
 ## Credits

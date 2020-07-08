@@ -1,6 +1,11 @@
 # Stores Discord bot's token
 config/token.txt
 
+# Configurations specific to a particular instance
+config/*.yaml
+# Don't ignore the default/template config file
+!config/shib.yaml
+
 # Taken from https://github.com/github/gitignore/blob/master/Python.gitignore
 
 # Byte-compiled / optimized / DLL files
