@@ -13,6 +13,7 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
     - [Fairness](#fairness)
     - [Discord tricks](#discord-tricks)
         - [Reactions](#reactions)
+4. [Development](#development)
 3. [Credits](#credits)
 
 
@@ -89,6 +90,34 @@ You might want to choose "Compact" for the Discord appearance when playing to ma
 You can post reactions (emoji) on a message by clicking the smiley-face while hovering over it. You can also include them in your own message by clicking the smiley on the far right of the message box, or pressing Ctrl+E. You can also type the name like `:tree:`, which will autocomplete. Beware that the emoji might not appear exactly the same on different people's screens.
 
 Reactions on a clue can be used as a shorthand to express what you think about it. Some emoji with a conventional meaning are listed in the Shibboleth server category for convenience. For example, the `:vouch:` star symbol expresses that you fully trust the cluer as being on your team, and the `:fishing:` rod accuses the cluer of cluing a word that isn't theirs as bait. These have no rules function and are just a means of communication. Feel free to suggest more emoji to add to the server.
+
+## Development
+
+To set up the project for local development:
+
+1. Install dependencies (optionally in a virtualenv, if desired):
+
+    ``` bash
+    $ python3 -m pip install discord
+    ```
+
+To set up a Discord server for development:
+
+1. [Obtain](https://discordpy.readthedocs.io/en/latest/discord.html#creating-a-bot-account) a Discord bot token and save it in `config/token.txt`.
+2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server. Grant it the following permissions: 
+    * Manage Roles
+    * Manage Channels
+    * Create Instant Invite
+    * View Channels
+    * Send Messages
+    * Manage Messages
+3. [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). See constants defined in `rooms.py` for role names. Make sure the playing role is below the role for your bot (otherwise permissions won't work).
+
+Start the bot:
+
+``` bash
+$ python bot.py
+```
 
 ## Credits
 
