@@ -75,7 +75,7 @@ async def on_ready():
 
 def read_token():
 	"""Reads the token from a file that's not committed on GitHub for security."""
-	with open("token.txt", "r") as f:
+	with open("config/token.txt", "r") as f:
 		return f.readline()
 
 if __name__ == "__main__":
