@@ -95,19 +95,28 @@ Reactions on a clue can be used as a shorthand to express what you think about i
 
 To set up the project for local development:
 
-1. [Obtain](https://discordpy.readthedocs.io/en/latest/discord.html#creating-a-bot-account) a Discord bot token and save it in `config/token.txt`.
-2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server.
-3. [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel. (See `rooms.py` for constants.)
-4. Ensure that the `discord.py` package is installed (optionally in a virtualenv, if desired):
+1. Install dependencies (optionally in a virtualenv, if desired):
 
     ``` bash
     $ python3 -m pip install discord
     ```
 
+To set up a Discord server for development:
+
+1. [Obtain](https://discordpy.readthedocs.io/en/latest/discord.html#creating-a-bot-account) a Discord bot token and save it in `config/token.txt`.
+2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server. Grant it the following permissions: 
+    * Manage Roles
+    * Manage Channels
+    * Create Instant Invite
+    * View Channels
+    * Send Messages
+    * Manage Messages
+3. [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). See constants defined in `rooms.py` for role names. Make sure the playing role is below the role for your bot (otherwise permissions won't work).
+
 Start the bot:
 
 ``` bash
-$ python3 bot.py
+$ python bot.py
 ```
 
 ## Credits
