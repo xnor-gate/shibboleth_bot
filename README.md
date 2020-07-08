@@ -104,13 +104,13 @@ To set up the project for local development:
 To set up a Discord server for development:
 
 1. [Obtain](https://discordpy.readthedocs.io/en/latest/discord.html#creating-a-bot-account) a Discord bot token and save it in `config/token.txt`.
-2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server. Grant it the following permissions: 
+2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server. Make a role for it that grants it the following permissions: 
     * Manage Roles
     * Manage Channels
     * Create Instant Invite
-    * View Channels
+    * View Channels (you can deny this for channels you don't want to the bot to see)
     * Send Messages
-    * Manage Messages
+    * Manage Messages  
 3. [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). See constants defined in `rooms.py` for role names. Make sure the playing role is below the role for your bot (otherwise permissions won't work).
 
 Start the bot:
