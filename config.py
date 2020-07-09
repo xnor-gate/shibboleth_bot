@@ -5,6 +5,9 @@ def init(config):
 		# Hardcoded in many user-facing strings, so if you change this you'll want to change those too
 		"bot_prefix": "!",
 
+		# Default word list relative path
+		"word_list_path": "wordlists/wordlist2000.txt",
+
 		# Settings below require manual configuration on Discord server.
 		# Expected to be configured via config/foo.yaml file.
 
