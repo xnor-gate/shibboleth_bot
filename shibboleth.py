@@ -32,7 +32,10 @@ class Shibboleth:
 
 		self.words = random.sample(self.entire_word_list, self.num_words)
 		self.secret_words = random.sample(self.words, 2)
-		assert len(set(self.secret_words)) == 2, "Number of secret words isn't 2"
+		# TODO(#7): Uniqueness should be enforced on entire word list instead. (Which will imply uniqueness of secret words.)
+		num_distinct_secret_words = len(set(self.secret_words))
+		if num_distinct_secret_words != 2:
+			raise GameInitializationError(f"Number of secret words should be 2, but is {num_distinct_secret_words}. The corpus contained repeats.")
 
 		num_players = len(players)
 
@@ -41,6 +44,8 @@ class Shibboleth:
 
 		if self.might_skew:
 			if team_guess_size is not None:
+				# This is theoretically possible (the team_guess_size must be at most the smaller of the skewed team
+				# sizes, as enforced below), but like, why would you want to?
 				raise GameInitializationError("Cannot make game with both skew chance and max_guess active.")
 			if num_players < 2:
 				raise GameInitializationError("Cannot make game with skew chance and <2 players.")
@@ -69,6 +74,7 @@ class Shibboleth:
 
 	@classmethod
 	def get_entire_word_list(cls):
+		# TODO(#7): Uniqueness should be asserted here, or can just return a set.
 		with open("wordlists/wordlist2000.txt", "r") as f:
 			words = [line.strip() for line in f.readlines()]
 			return words
@@ -106,6 +112,12 @@ class Shibboleth:
 		[other_word] = set(self.secret_words) - {word}
 		return other_word
 
+	def declare_winner(self, guesser, correct):
+		""" Sets the winning word (and ends the game) based on the guesser and correctness of the game-ending guess. """
+		guesser_word = self.get_secret_word(guesser)
+		opposing_word = self.opposing_word(guesser_word)
+		self.winning_word = guesser_word if correct else opposing_word
+
 	def check_word_guess(self, player, word):
 		if player not in self.players:
 			raise GameActionError("Player not in player list")
@@ -123,11 +135,7 @@ class Shibboleth:
 			raise GameActionError("Cannot guess after game is done.")
 
 		correct = self.check_word_guess(player, guessed_word)
-
-		player_word = self.get_secret_word(player)
-		opposing_word = self.opposing_word(player_word)
-
-		self.winning_word = {True: player_word, False: opposing_word}[correct]
+		self.declare_winner(player, correct)
 		return correct
 
 	@property
@@ -142,7 +150,8 @@ class Shibboleth:
 		return " or ".join(str(num) for num in sorted(set(self.valid_team_guess_sizes)))
 
 	def check_team_guess(self, player, guessed_team):
-		assert player in self.players
+		if player not in self.players:
+			raise GameActionError("Player not in player list")
 
 		guessed_team_set = set(guessed_team)
 
@@ -166,36 +175,28 @@ class Shibboleth:
 			return guessed_team_set == actual_team_set
 
 	def resolve_team_guess(self, player, team, veto_timeout_override=False):
+		""" Called when a team has been guessed, or when a veto phase times out. """
 		if not self.game_ongoing:
 			raise GameActionError("Cannot guess after game is done")
 		if self.in_veto_phase and not veto_timeout_override:
 			raise GameActionError("Cannot guess team during veto phase")
+		if veto_timeout_override and not self.in_veto_phase:
+			raise GameActionError("No active veto phase, veto timeout invalid")
+		if veto_timeout_override and (player, team) != self.vetoable_team_guess:
+			raise GameActionError("Cannot resolve team guess differing from the initial guess")
 
 		correct = self.check_team_guess(player, team)
-
-		player_word = self.get_secret_word(player)
-		opposing_word = self.opposing_word(player_word)
 
 		if self.include_veto_phase and (not self.in_veto_phase):
 			self.vetoable_team_guess = (player, team)
 		else:
-			self.winning_word = {True: player_word, False: opposing_word}[correct]
-		return correct
+			self.declare_winner(player, correct)
 
-	def resolve_end_veto_phase(self):
-		player, team = self.vetoable_team_guess
-		self.resolve_team_guess(player, team, veto_timeout_override=True)
+		return correct
 
 	@property
 	def in_veto_phase(self):
 		return self.vetoable_team_guess is not None
-
-	@property
-	def winners_and_losers(self):
-		if not self.game_ongoing:
-			return None
-
-		return [self.players_with_word(word) for word in [self.winning_word, self.opposing_word(self.winning_word)]]
 
 	@property
 	def game_ongoing(self):
@@ -234,19 +235,3 @@ class Shibboleth:
 	@property
 	def status_string(self):
 		return "\n".join(self.info_strings)
-
-if __name__ == "__main__":
-	class Player:
-		def __init__(self, display_name):
-			self.display_name = display_name
-
-		def __repr__(self):
-			return f"Player named {self.display_name}"
-
-	test_players = p1, p2, p3 = [Player(name) for name in ["p1", "p2", "p3"]]
-	s = Shibboleth(test_players, 5)
-	print(s, end="\n\n")
-	s.resolve_team_guess(p1, [p1])
-	print(s, end="\n\n")
-	s.resolve_word_guess(p2, s.words[0])
-	print(s, end="\n\n")

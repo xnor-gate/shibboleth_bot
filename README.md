@@ -113,6 +113,11 @@ To set up a Discord server for development:
     * Manage Messages  
 3. [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). See constants defined in `rooms.py` for role names. Make sure the playing role is below the role for your bot (otherwise permissions won't work).
 
+Run unit tests:
+``` bash
+$ python3 -m unittest
+```
+
 Start the bot:
 
 ``` bash
