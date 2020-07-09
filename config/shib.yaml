@@ -11,3 +11,7 @@ playing_roles_in_channels:
   bot-testing: Testing
 
 misc_role: Playing Shibboleth
+
+notify_roles:
+  - Notify of games
+  - Notify of Shibboleth games

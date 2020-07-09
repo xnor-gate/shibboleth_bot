@@ -12,6 +12,9 @@ def init(config):
 		"playing_roles_in_channels": {},
 		# Role name for players in channel names not matching any of the above.
 		"misc_role": "",
+		# List of role names for players who wish to be notified of a new game.
+		# The first one listed that exists in the guild will be used.
+		"notify_roles": [],
 	})
 
 	# Read overrides from yaml file.

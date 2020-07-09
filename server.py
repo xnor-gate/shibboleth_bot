@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 from check import no_dm_predicate
+import config
 
 class Server(commands.Cog):
 	def __init__(self, bot):
@@ -11,10 +12,11 @@ class Server(commands.Cog):
 		return no_dm_predicate(ctx)
 
 	def get_notify_role(self, ctx):
-		notify_role = discord.utils.get(ctx.guild.roles, name="Notify of games")
-		if notify_role is None:
-			notify_role = discord.utils.get(ctx.guild.roles, name="Notify of Shibboleth games")
-		return notify_role
+		for role in config.notify_roles:
+			notify_role = discord.utils.get(ctx.guild.roles, name=role)
+			if notify_role:
+				return notify_role
+		assert False, "No notify role"
 
 	@commands.command(
 		brief="Get pinged on Discord when people want to play",
