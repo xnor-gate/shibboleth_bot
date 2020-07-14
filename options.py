@@ -72,7 +72,7 @@ class Options(commands.Cog):
 
 	@commands.command(
 		brief="Set or show chance of more uneven teams",
-		description="Set or show the chance of having more uneven teams, meant for smaller games. The chance is a float from 0.0 to 1.0. Skewed teams are like 3v1 or 4v1, imbalanced by one extra player. Call without a number to show the current value.",
+		description="Set or show the chance of having more uneven teams, meant for smaller games. The chance is a float from 0.0 to 1.0. Skewed teams are imbalanced by one extra player, like 2v0, 3v0, 3v1, 4v1, 4v2, etc. Call without a number to show the current value.",
 		aliases=["sk"],
 	)
 	async def skew(self, ctx, *, skew_chance: float = None):
