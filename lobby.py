@@ -40,7 +40,8 @@ class Lobby(commands.Cog):
 				room.add_member_to_joiner_queue(member)
 			else:
 				room.add_player(member)
-				await member.add_roles(room.playing_role)
+				if room.playing_role:
+					await member.add_roles(room.playing_role)
 				await ctx.send(f"{member.mention} is now playing")
 
 	@commands.command(
@@ -65,17 +66,18 @@ class Lobby(commands.Cog):
 			elif member in room.room_players:
 				room.remove_player(member)
 				await ctx.send(f"{member.display_name} is no longer playing.")
-				await member.remove_roles(playing_role)
+				if playing_role:
+					await member.remove_roles(playing_role)
 			else:
 				await ctx.send(f"{ctx.author.mention} {member.display_name} was already not playing.")
 
 		for member_or_role in members:
 			if isinstance(member_or_role, discord.Role):
-				if member_or_role == here(ctx).playing_role:
+				if member_or_role == playing_role:
 					for player in here(ctx).room_players:
 						await remove_player(player)
 				else:
-					raise commands.CheckFailure(f"Cannot remove `{member_or_role.name}`. Must be the current room's player role `{playing_role}`.")
+					raise commands.CheckFailure(f"Cannot remove `{member_or_role.name}`. Must be the current room's player role `{playing_role.name}`.")
 			else:
 				await remove_player(member_or_role)
 

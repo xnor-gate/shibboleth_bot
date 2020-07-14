@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 from check import no_dm_predicate
+import config
 
 class Server(commands.Cog):
 	def __init__(self, bot):
@@ -11,19 +12,22 @@ class Server(commands.Cog):
 		return no_dm_predicate(ctx)
 
 	def get_notify_role(self, ctx):
-		notify_role = discord.utils.get(ctx.guild.roles, name="Notify of games")
-		if notify_role is None:
-			notify_role = discord.utils.get(ctx.guild.roles, name="Notify of Shibboleth games")
+		""" Returns role for players who wish to be notified of a game. May be None if one is not configured on the server or for this instance of the bot. """
+		notify_role = discord.utils.get(ctx.guild.roles, name=config.notify_role)
 		return notify_role
 
 	@commands.command(
 		brief="Get pinged on Discord when people want to play",
-		description="Give yourself the \"Notify on Games\" role (or this server's equivalent), which can be pinged to alert those interested in joining games. This gets pinged when someone messages `@Notify of Games`, not automatically when there's a game.",
+		description="Give yourself the \"Notify of Shibboleth games\" role (or this server's equivalent), which can be pinged to alert those interested in joining games. This gets pinged when someone messages `@Notify of Games`, not automatically when there's a game.",
 		aliases=["n"],
 	)
 	async def notify(self, ctx):
 		member = ctx.author
 		notify_role = self.get_notify_role(ctx)
+		if not notify_role:
+			await ctx.send(f"{member.mention} will not be notified of games. This server doesn't have a notification role!")
+			return
+
 		notify_role_name = notify_role.name
 
 		if notify_role in member.roles:
@@ -34,12 +38,16 @@ class Server(commands.Cog):
 
 	@commands.command(
 		brief="Remove yourself from being notified",
-		description="Remove yourself from having the \"Notify on Games\" role (or this server's equivalent).",
+		description="Remove yourself from having the \"Notify of Shibboleth games\" role (or this server's equivalent).",
 		aliases=["un"],
 	)
 	async def unnotify(self, ctx):
 		member = ctx.author
 		notify_role = self.get_notify_role(ctx)
+		if not notify_role:
+			await ctx.send(f"{member.mention} will not be notified of games. This server doesn't have a notification role!")
+			return
+
 		notify_role_name = notify_role.name
 
 		if notify_role not in member.roles:

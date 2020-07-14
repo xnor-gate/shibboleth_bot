@@ -1,31 +1,21 @@
+import argparse
 import traceback
 
 import discord
 from discord.ext.commands import Bot
 
+import config
 from help import Help
 from lobby import Lobby
 from options import Options
 from room import RoomError
-from rooms import ROOMS, MissingChannelError
+from rooms import Rooms, MissingChannelError
 from round import Round
 from server import Server
 from shibboleth import GameActionError, GameInitializationError
 from status import Status
 from help_command import CommandError
 
-BOT_PREFIX = "!"  # Hardcoded in many user-facing strings, so if you change this you'll want to change those too
-bot = Bot(command_prefix=BOT_PREFIX, case_insensitive=True, help_command=None)
-
-COGS = [Lobby(bot), Round(bot), Help(bot), Status(bot), Options(bot), Server(bot)]
-
-for cog in COGS:
-	bot.add_cog(cog)
-
-for command in bot.walk_commands():
-	command.ignore_extra = False
-
-@bot.event
 async def on_command_error(ctx, exception):
 	orig_exception = exception.__cause__
 	message = ctx.message.content
@@ -47,7 +37,6 @@ async def on_command_error(ctx, exception):
 		traceback.print_exception(type(orig_exception), orig_exception, orig_exception.__traceback__)
 	await ctx.send(error_message)
 
-@bot.event
 async def on_message_edit(_before, after):
 	await bot.process_commands(after)
 
@@ -55,10 +44,8 @@ async def initialize_channel(channel):
 	assert channel is not None, "None channel"
 	print(f"Initializing {channel} in {channel.guild}")
 
-	ROOMS.add_channel(channel)
+	Rooms.get().add_channel(channel)
 
-
-@bot.event
 async def on_ready():
 	print(f"Logged in as {bot.user.name}")
 	await bot.change_presence(activity=discord.Activity(name="Shibboleth (!h for help)", type=1, url="https://github.com/xnor-gate/shibboleth_bot/blob/master/README.md"))
@@ -79,5 +66,23 @@ def read_token():
 		return f.readline()
 
 if __name__ == "__main__":
+	parser = argparse.ArgumentParser(description='Run the Shibboleth Discord bot.')
+	parser.add_argument('--config', dest="config", default="shib",
+		help="yaml configuration file to use, e.g. --config=dev uses ./config/dev.yaml (default: shib)")
+	args = parser.parse_args()
+
+	config.init(args.config)
+
+	bot = Bot(command_prefix=config.bot_prefix, case_insensitive=True, help_command=None)
+
+	for event in [on_command_error, on_message_edit, on_ready]:
+		event = bot.event(event)  # Equivalent to @bot.event decorator
+
+	for cog in [Lobby(bot), Round(bot), Help(bot), Status(bot), Options(bot), Server(bot)]:
+		bot.add_cog(cog)
+
+	for command in bot.walk_commands():
+		command.ignore_extra = False
+
 	print("Starting up bot...")
 	bot.run(read_token())

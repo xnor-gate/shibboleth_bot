@@ -1,5 +1,6 @@
 import random
 
+import config
 from name_utils import names_of, names_string_formatted
 
 
@@ -75,7 +76,7 @@ class Shibboleth:
 	@classmethod
 	def get_entire_word_list(cls):
 		# TODO(#7): Uniqueness should be asserted here, or can just return a set.
-		with open("wordlists/wordlist2000.txt", "r") as f:
+		with open(config.word_list_path, "r") as f:
 			words = [line.strip() for line in f.readlines()]
 			return words
 
