@@ -27,6 +27,7 @@ def here(ctx):
 		raise MissingChannelError(f"Channel {ctx.channel} is not initialized. Probably just wait a few seconds...")
 
 def playing_role_in_channel(channel):
+	""" Returns the role for players in the given channel. May return None if no role is configured on the server or for this bot instance. """
 	channel_name = channel.name
 
 	# To extend the map like "shibboleth-game2" -> "Playing2", chop off a  numerical suffix.
@@ -35,12 +36,11 @@ def playing_role_in_channel(channel):
 	channel_name_prefix = channel_name_split.group('prefix')
 	suffix = channel_name_split.group('suffix')
 
-	role_prefix = config.playing_roles_in_channels.get(channel_name_prefix, config.misc_role)
+	role_prefix = config.playing_roles_in_channels.get(channel_name_prefix, config.misc_playing_role)
 	role_name = role_prefix + suffix
 
-	role = discord.utils.get(channel.guild.roles, name=role_name)
+	role = discord.utils.get(channel.guild.roles, name=role_name) if role_name else None
 
-	assert role is not None, f"Can't find role {role_name} for channel {channel}. If needed, make a role with that name, hide the channel from the bot, or modify playing_roles_in_channels in the config file."
 	return role
 
 def link_to_channel(channel):

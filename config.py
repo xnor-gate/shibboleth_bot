@@ -8,16 +8,15 @@ def init(config):
 		# Default word list relative path
 		"word_list_path": "wordlists/wordlist2000.txt",
 
-		# Settings below require manual configuration on Discord server.
-		# Expected to be configured via config/foo.yaml file.
+		# Settings below expected to be configured via config/foo.yaml file.
 
-		# Map of channel names to the role name used for players in that channel.
+		# Map of channel name to optional role name for players in the given channel.
+		# Can be extended by adding the same numerical suffix to both, e.g. shibboleth-game2 -> Playing2
 		"playing_roles_in_channels": {},
-		# Role name for players in channel names not matching any of the above.
-		"misc_role": "",
-		# List of role names for players who wish to be notified of a new game.
-		# The first one listed that exists in the guild will be used.
-		"notify_roles": [],
+		# Name of optional role for players in a channel not matching any of the above.
+		"misc_playing_role": "",
+		# Name of optional role for players wishing to be notified of a game.
+		"notify_role": "",
 	})
 
 	# Read overrides from yaml file.

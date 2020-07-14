@@ -98,6 +98,8 @@ class Room:
 	def sync_players(self):
 		self.remove_all_players()
 
+		if not self.playing_role:
+			return
 		for member in self.channel.members:
 			if self.playing_role in member.roles:
 				self.add_player(member)
@@ -112,7 +114,8 @@ class Room:
 		info_strings = []
 
 		info_strings.append(f"Room: {self.room_name}")
-		info_strings.append(f"Playing role: {self.playing_role.name}")
+		playing_role_name = self.playing_role.name if self.playing_role else "None"
+		info_strings.append(f"Playing role: {playing_role_name}")
 		info_strings.append(f"Round {self.round_num}")
 		info_strings.append(self.player_name_string)
 		if bool(self.queued_joiners):

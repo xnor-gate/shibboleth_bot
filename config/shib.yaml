@@ -1,17 +1,22 @@
 ---
-# This file is the default configuration for the Shibboleth server.
-# Use as an example for creating your own instance.
+# This file is the default configuration for the Shibboleth bot.
+# Use as an example for configuring your own instance of the bot.
+
+# Severs using this instance of the bot will need to have channels and
+# roles configured according to these constants:
 
 # See config.py for all configurable constants.
 
+# Map of channel name to optional role name for players in the given channel.
+# Can be extended by adding the same numerical suffix to both, e.g. shibboleth-game2 -> Playing2
 playing_roles_in_channels:
   shibboleth-game: Playing
   shibboleth-pictures: PlayingPics
   shibboleth: Playing Shibboleth
   bot-testing: Testing
 
-misc_role: Playing Shibboleth
+# Name of optional role for players in a channel not matching any of the above.
+misc_playing_role: Playing Shibboleth
 
-notify_roles:
-  - Notify of games
-  - Notify of Shibboleth games
+# Name of optional role for players wishing to be notified of a game.
+notify_role: Notify of Shibboleth games
