@@ -52,7 +52,7 @@ In games with many players, guessing your exact team is hard, so there's an opti
 
 ### Skew
 
-Small games with 2, 3, or 4 players might use the "skew" option to give a chance of more unbalanced teams 0v2, 0v3, or 1v3, which makes guessing your team harder. For example, in a 3-player game with skew chance 0.33, there's a 33% the teams are secretly 0v3 instead of the usual 1v2, where every has the same word and will all win or all lose. Here, you could guess a team size 1 (just yourself), size 2, or size 3 (everyone).
+Small games with 2, 3, or 4 players might use the "skew" option to give a chance of more unbalanced team sizes 0v2, 0v3, or 1v3, which makes guessing your team harder. For example, in a 3-player game with skew chance 0.3, there's a 30% chance that the teams are secretly 0v3 instead of the usual 1v2, where every has the same word and will all win or all lose. Here, you could guess a team size 1 (just yourself), size 2, or size 3 (everyone).
 
 ## Playing on Discord
 
