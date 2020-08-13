@@ -38,6 +38,8 @@ You try to find your team by giving clues about your word. The idea is to convin
 
 A list of 14 or so random words including both secret words is publicly displayed. Scanning through it can help you look for words that the other team might be cluing. If you find one that seems to match, you might then give clues pretending that's your word to test this theory and try to infiltrate their team.
 
+You can assume that any message someone writes during a round is a clue, unless it's marked as "not a clue" ("nac").
+
 ### Veto phase
 
 If you play with a veto phase, when a player guesses their team, the round does not end yet and nothing is revealed. Instead, there is a 45-second veto period where anyone may guess the opposing team's word. If someone does, this word guess takes precedence and immediately determines who wins the round, and the earlier team guess is ignored. Otherwise, if this period ends without anyone guessing a word, the original team guess goes through and decides the winner. 
@@ -49,6 +51,10 @@ The idea of the veto phase is that if the other team that gives too obvious clue
 ### Partial team guesses
 
 In games with many players, guessing your exact team is hard, so there's an option to allow guessing only part of your team. For example, in a 9-player game, you might play that you need to guess exactly 3 people on your team counting yourself. The guess counts as  right if all those people are your on team and your whole team wins, even though some teammates aren't included in the guess.
+
+### Skew
+
+Small games with 2, 3, or 4 players might use the "skew" option to give a chance of more unbalanced teams 0v2, 0v3, or 1v3, which makes guessing your team harder. For example, in a 3-player game with skew chance 0.33, there's a 33% the teams are secretly 0v3 instead of the usual 1v2, where every has the same word and will all win or all lose. Here, you could call in a team size 1 (just yourself), size 2, or size 3 (everyone).
 
 ## Playing on Discord
 
@@ -136,4 +142,4 @@ Shibboleth bot and server by xnor-gate. Thanks to Discord for their platform and
 
 Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to play the game in person at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall) from which this project took inspiration.
 
-Thanks to [dfkoh](https://github.com/dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, and to everyone who suggested names and improvements.
+Thanks to [dfkoh](https://github.com/dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, and to [lchen025](https://github.com/lchen025) for code contributions. Thanks to everyone who suggested names and improvements.
