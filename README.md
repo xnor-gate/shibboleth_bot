@@ -133,7 +133,7 @@ To make a new instance of the bot and add it to your server:
 
 1. [Obtain](https://discordpy.readthedocs.io/en/latest/discord.html#creating-a-bot-account) a Discord bot token and save it in `config/token.txt`.
 2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server using the instructions in [the previous section](#adding-the-bot-to-your-server).
-3. (Optional) [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). You can also create a role for players who wish to be notified of a game. Role names are configured in `./config`. (See `./config/shib.yaml` for an example.) Make sure the playing role is below the role for your bot (otherwise permissions won't work).
+3. (Optional) [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). You can also create a role for players who wish to be notified of a game. Role names are configured in `./config`. (See `./config/shib.yaml` for an example.) Make sure these role are listed below the role for your bot so that the bot has permissions for them.
 
 Run unit tests:
 ``` bash
