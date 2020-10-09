@@ -14,6 +14,8 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
     - [Discord tricks](#discord-tricks)
         - [Reactions](#reactions)
 4. [Development](#development)
+    - [Adding the bot to your server](#adding-the-bot-to-your-server)
+    - [Running this code](#running-this-code)
 3. [Credits](#credits)
 
 
@@ -97,7 +99,29 @@ Reactions on a clue can be used as a shorthand to express what you think about i
 
 ## Development
 
-To set up the project for local development:
+### Adding the bot to your server
+
+You can have this bot run on any Discord server that you manage. This can be done solely through Discord; it doesn't require running any code.
+
+1. Add the bot to your server using [this link](https://discord.com/api/oauth2/authorize?client_id=696541868548423782&permissions=268446720&scope=bot).
+2. Poke the maintainer of this repository to restart the bot, after which it will appear in your server. (In the future this might be automated.)
+
+The rest of these are optional.
+
+3. To restrict the bot to a specific channel or channels, for each channel you don't want it in, go to its channel permissions, add the Shibboleth role as a new permissions category, and remove its "Read Messages" permission. (Unfortunately [Discord doesn't seem to provide a better way](https://support.discord.com/hc/en-us/community/posts/360045778711-Restrict-bots-to-certain-channels-#:~:text=At%20the%20moment%2C%20the%20only,the%20more%20tedious%20it%20becomes.).) If your channel permissions are synced with a category, you can change permissions for that category to affect all its channels.
+4. If you want a visible role to mark who is playing, create a role named `Playing Shibboleth`. Put it lower down than the bot's Shibboleth role.
+5. If you want a role people can use to ping other about games, create a role named `Notify of Shibboleth Games`. Put it lower down than the bot's Shibboleth role. Users can do `!notify` and `!unnotify` to get or remove this role, but the bot won't be ping it automatically.
+
+The bot uses the following permissions by default. If you don't want them, you can remove them when adding the bot. You can also change them later via the permimssions of the "Shibboleth" role, or remove them from specific channels.
+
+* Send messages
+* View Channels (aka Read Messages)
+* Manage roles (optional: to handle `Playing Shibboleth` and `Notify of Shibboleth Games` roles if they exist)
+* Manage messages (optional: to pin the word list each round for easy access)
+
+### Running this code
+
+You can also fork this code to run it locally for your Discord servers, creating a copy of this bot. To set up the project for local development:
 
 1. Install dependencies (optionally in a virtualenv, if desired):
 
@@ -105,16 +129,10 @@ To set up the project for local development:
     $ python3 -m pip install -r requirements.txt
     ```
 
-To set up a Discord server for development:
+To make a new instance of the bot and add it to your server:
 
 1. [Obtain](https://discordpy.readthedocs.io/en/latest/discord.html#creating-a-bot-account) a Discord bot token and save it in `config/token.txt`.
-2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server. Make a role for it that grants it the following permissions: 
-    * Manage Roles
-    * Manage Channels
-    * Create Instant Invite
-    * View Channels (you can deny this for channels you don't want to the bot to see)
-    * Send Messages
-    * Manage Messages
+2. [Invite](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot) the bot to an appropriate server using the instructions in [the previous section](#adding-the-bot-to-your-server).
 3. (Optional) [Create](https://support.discord.com/hc/en-us/articles/206029707-How-do-I-set-up-Permissions-) an appropriately named role on the server for each channel (to hold users who are currently playing). You can also create a role for players who wish to be notified of a game. Role names are configured in `./config`. (See `./config/shib.yaml` for an example.) Make sure the playing role is below the role for your bot (otherwise permissions won't work).
 
 Run unit tests:
