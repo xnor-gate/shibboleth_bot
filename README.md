@@ -15,7 +15,7 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
         - [Reactions](#reactions)
 4. [Development](#development)
     - [Adding the bot to your server](#adding-the-bot-to-your-server)
-    - [Running this code](#running-this-code)
+    - [Forking this code](#forking-this-code)
 3. [Credits](#credits)
 
 
@@ -119,7 +119,7 @@ The bot uses the following permissions by default. If you don't want them, you c
 * Manage roles (optional: to handle `Playing Shibboleth` and `Notify of Shibboleth Games` roles if they exist)
 * Manage messages (optional: to pin the word list each round for easy access)
 
-### Running this code
+### Forking this code
 
 You can also fork this code to run it locally for your Discord servers, creating a copy of this bot. To set up the project for local development:
 
