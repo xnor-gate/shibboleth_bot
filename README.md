@@ -112,12 +112,12 @@ The rest of these are optional.
 4. If you want a visible role to mark who is playing, create a role named `Playing Shibboleth`. Put it lower down than the bot's Shibboleth role.
 5. If you want a role people can use to ping other about games, create a role named `Notify of Shibboleth Games`. Put it lower down than the bot's Shibboleth role. Users can do `!notify` and `!unnotify` to get or remove this role, but the bot won't be ping it automatically.
 
-The bot uses the following permissions by default. If you don't want them, you can remove them when adding the bot. You can also change them later via the permimssions of the "Shibboleth" role, or remove them from specific channels.
+The bot uses the following permissions by default. If you don't want them, you can remove them when adding the bot. You can also change them later via the permissions of the "Shibboleth" role, or remove them from specific channels.
 
 * Send messages
 * View Channels (aka Read Messages)
 * Manage roles (optional: to handle `Playing Shibboleth` and `Notify of Shibboleth Games` roles if they exist)
-* Manage messages (optional: to pin the word list each round for easy access)
+* Manage Messages (optional: to pin the word list each round for easy access)
 
 ### Forking this code
 
