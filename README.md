@@ -101,22 +101,19 @@ Reactions on a clue can be used as a shorthand to express what you think about i
 
 ### Adding the bot to your server
 
-You can have this bot run on any Discord server that you manage. This can be done solely through Discord; it doesn't require running any code.
+You can add this bot to any Discord server that you manage. This is done solely through Discord's interface; it doesn't require running any code. Add the bot to your server using [this link](https://discord.com/api/oauth2/authorize?client_id=696541868548423782&permissions=268446720&scope=bot).
 
-1. Add the bot to your server using [this link](https://discord.com/api/oauth2/authorize?client_id=696541868548423782&permissions=268446720&scope=bot).
-2. Poke the maintainer of this repository to restart the bot, after which it will appear in your server. (In the future this might be automated.)
+You can optionally do these:
 
-The rest of these are optional.
+- To restrict the bot to a specific channel or channels, for each channel you *don't* want it in, go to its channel permissions, add the Shibboleth role as a new permissions category, and remove its "Read Messages" permission. (Unfortunately [Discord doesn't seem to provide a more scalable way to do this](https://support.discord.com/hc/en-us/community/posts/360045778711-Restrict-bots-to-certain-channels-#:~:text=At%20the%20moment%2C%20the%20only,the%20more%20tedious%20it%20becomes.).) If your channel permissions are synced with a category, you can change permissions for that category to affect all its channels.
+- If you want a visible role to mark who is playing, create a role named `Playing Shibboleth`. Put it lower than the bot's Shibboleth role in the role list.
+- If you want a role people can use to ping other about games, create a role named `Notify of Shibboleth Games`. Put it lower than the bot's Shibboleth role in the role list. Users can do `!notify` and `!unnotify` to get or remove this role, but the bot won't be ping it automatically.
 
-3. To restrict the bot to a specific channel or channels, for each channel you *don't* want it in, go to its channel permissions, add the Shibboleth role as a new permissions category, and remove its "Read Messages" permission. (Unfortunately [Discord doesn't seem to provide a better way](https://support.discord.com/hc/en-us/community/posts/360045778711-Restrict-bots-to-certain-channels-#:~:text=At%20the%20moment%2C%20the%20only,the%20more%20tedious%20it%20becomes.).) If your channel permissions are synced with a category, you can change permissions for that category to affect all its channels.
-4. If you want a visible role to mark who is playing, create a role named `Playing Shibboleth`. Put it lower down than the bot's Shibboleth role.
-5. If you want a role people can use to ping other about games, create a role named `Notify of Shibboleth Games`. Put it lower down than the bot's Shibboleth role. Users can do `!notify` and `!unnotify` to get or remove this role, but the bot won't be ping it automatically.
+The bot asks for the following permissions when you add it. You can uncheck them, or later change them via the permissions of the "Shibboleth" role or permissions for specific channels. You'll need Send Messages and View Channels (Read Messages) in a channel for the bot to function there.
 
-The bot uses the following permissions by default. If you don't want them, you can remove them when adding the bot. You can also change them later via the permissions of the "Shibboleth" role, or remove them from specific channels.
-
-* Send messages
+* Send Messages
 * View Channels (aka Read Messages)
-* Manage roles (optional: to handle `Playing Shibboleth` and `Notify of Shibboleth Games` roles if they exist)
+* Manage Roles (optional: to handle `Playing Shibboleth` and `Notify of Shibboleth Games` roles if they exist)
 * Manage Messages (optional: to pin the word list each round for easy access)
 
 ### Forking this code
