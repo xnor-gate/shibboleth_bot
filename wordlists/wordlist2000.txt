@@ -1662,7 +1662,7 @@ spool
 spoon
 sport
 spot
-splotlight
+spotlight
 spray
 spring
 sprinkler
@@ -1919,6 +1919,7 @@ waitress
 wall
 wallet
 walrus
+wand
 war
 warehouse
 warning
@@ -1981,7 +1982,6 @@ wound
 wrap
 wrench
 wrist
-write
 writer
 xylophone
 yard

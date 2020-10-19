@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 from check import no_dm_predicate
-from rooms import here
+from rooms import here, Rooms
 
 
 class Lobby(commands.Cog):
@@ -40,9 +40,16 @@ class Lobby(commands.Cog):
 				room.add_member_to_joiner_queue(member)
 			else:
 				room.add_player(member)
-				if room.playing_role:
-					await member.add_roles(room.playing_role)
+				if room.playing_role is not None:
+					try:
+						await member.add_roles(room.playing_role)
+					except discord.errors.Forbidden:
+						pass
 				await ctx.send(f"{member.mention} is now playing")
+
+				# Automatically unjoin other channels one is joined in or queued in.
+				# Currently a player can join another channel while in an ongoing game, and only be queued to leave. Maybe should change to disallow joining in that circumstance.
+				await self.unjoin_other_rooms_in_server(member, ctx)
 
 	@commands.command(
 		brief="Mark yourself or others as not playing",
@@ -55,31 +62,64 @@ class Lobby(commands.Cog):
 
 		playing_role = here(ctx).playing_role
 
-		async def remove_player(member):
-			room = here(ctx)
-			if room.in_round and (member in room.game.players):
-				await ctx.send(f"{member.mention} will leave after this round finishes.")
-				room.add_member_to_leaver_queue(member)
-			elif room.in_round and (member in room.queued_joiners):
-				room.remove_member_from_joiner_queue(member)
-				await ctx.send(f"{member.mention} will no longer join after this round.")
-			elif member in room.room_players:
-				room.remove_player(member)
-				await ctx.send(f"{member.display_name} is no longer playing.")
-				if playing_role:
-					await member.remove_roles(playing_role)
-			else:
-				await ctx.send(f"{ctx.author.mention} {member.display_name} was already not playing.")
-
 		for member_or_role in members:
 			if isinstance(member_or_role, discord.Role):
 				if member_or_role == playing_role:
-					for player in here(ctx).room_players:
-						await remove_player(player)
+					players_here = list(here(ctx).room_players)
+					for player in players_here:
+						await self.remove_player(ctx, player)
 				else:
 					raise commands.CheckFailure(f"Cannot remove `{member_or_role.name}`. Must be the current room's player role `{playing_role.name}`.")
+			elif isinstance(member_or_role, discord.Member):
+				await self.remove_player(ctx, member_or_role)
 			else:
-				await remove_player(member_or_role)
+				raise commands.CheckFailure(f"`{member_or_role}` is neither a member not a role.")
+
+	async def remove_player(self, ctx, member, reason=None):
+		room = here(ctx)
+		playing_role = here(ctx).playing_role
+
+		if reason is not None:
+			reason_str = f" ({reason})"
+		else:
+			reason_str = ""
+
+		if room.in_round and (member in room.game.players):
+			await ctx.send(f"{member.mention} will leave after this round finishes{reason_str}.")
+			room.add_member_to_leaver_queue(member)
+		elif room.in_round and (member in room.queued_joiners):
+			room.remove_member_from_joiner_queue(member)
+			await ctx.send(f"{member.mention} will no longer join after this round{reason_str}.")
+		elif member in room.room_players:
+			room.remove_player(member)
+			await ctx.send(f"{member.display_name} is no longer playing{reason_str}.")
+
+			if playing_role:
+				try:
+					await member.remove_roles(room.playing_role)
+				except discord.errors.Forbidden:
+					pass
+		else:
+			await ctx.send(f"{ctx.author.mention} {member.display_name} was already not playing.")
+
+	async def unjoin_other_rooms_in_server(self, player, ctx):
+		my_channel = ctx.channel
+		my_guild = ctx.guild
+
+		for channel in my_guild.channels:
+			if channel == my_channel:
+				continue
+
+			try:
+				other_room = Rooms.get().get_channel(channel)
+			except KeyError:
+				continue
+
+			other_channel = other_room.channel
+			if (player in other_room.room_players) or (player in other_room.queued_joiners):
+				# Mutating ctx, be careful
+				ctx.channel = other_channel
+				await self.remove_player(ctx, player, f"joined {my_channel.mention}")
 
 	@commands.command(
 		brief="Start a new round with the joined players",

@@ -21,19 +21,19 @@ class Shibboleth:
 		if len(set(players)) != len(players):
 			raise GameInitializationError(f"Repeated players in {self.player_names}")
 
-		self.entire_word_list = self.get_entire_word_list()
+		self.corpus = self.get_corpus()
 		self.include_veto_phase = include_veto_phase
 		self.team_guess_size = team_guess_size
 
 		self.vetoable_team_guess = None
 
-		if not (2 <= num_words <= len(self.entire_word_list)):
+		if not (2 <= num_words <= len(self.corpus)):
 			raise GameInitializationError(f"Invalid number of words {num_words}")
 		self.num_words = num_words
 
-		self.words = random.sample(self.entire_word_list, self.num_words)
+		self.words = random.sample(self.corpus, self.num_words)
 		self.secret_words = random.sample(self.words, 2)
-		# TODO(#7): Uniqueness should be enforced on entire word list instead. (Which will imply uniqueness of secret words.)
+		# TODO(#7): Uniqueness should be enforced on corpus instead. (Which will imply uniqueness of secret words.)
 		num_distinct_secret_words = len(set(self.secret_words))
 		if num_distinct_secret_words != 2:
 			raise GameInitializationError(f"Number of secret words should be 2, but is {num_distinct_secret_words}. The corpus contained repeats.")
@@ -74,7 +74,7 @@ class Shibboleth:
 		return self.status_string
 
 	@classmethod
-	def get_entire_word_list(cls):
+	def get_corpus(cls):
 		# TODO(#7): Uniqueness should be asserted here, or can just return a set.
 		with open(config.word_list_path, "r") as f:
 			words = [line.strip() for line in f.readlines()]

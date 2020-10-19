@@ -16,7 +16,7 @@ class Options(commands.Cog):
 			await ctx.send("(This change will take effect next round.)")
 
 	@commands.command(
-		brief="Set or show number of words (0 for default for player count)",
+		brief="Set or show number of words (0 for default by player count)",
 		description="Set the number of words. Or, call without a number to show the current value. A value of 0 means twice as many words as players (min 8, max 16). Changes during a round only affect later round.",
 		aliases=["nw"],
 	)
@@ -72,7 +72,7 @@ class Options(commands.Cog):
 
 	@commands.command(
 		brief="Set or show chance of more uneven teams",
-		description="Set or show the chance of having more uneven teams, meant for smaller games. The chance is a float from 0.0 to 1.0. Skewed teams are imbalanced by one extra player, like 2v0, 3v0, 3v1, 4v1, 4v2, etc. Call without a number to show the current value.",
+		description="Set or show chance of more uneven teams, meant for smaller games. The chance is a float from 0.0 to 1.0. Skewed teams are imbalanced by one extra player, like 2v0, 3v0, 3v1, 4v1, 4v2, etc. Call without a number to show the current value.",
 		aliases=["sk"],
 	)
 	async def skew(self, ctx, *, skew_chance: float = None):

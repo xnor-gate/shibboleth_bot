@@ -14,17 +14,29 @@ class Rooms:
 	def __init__(self):
 		self.rooms = {}
 
+	def get_channel(self, channel):
+		return self.rooms[channel.id]
+
+	def get_channel_adding_if_missing(self, channel):
+		if channel.id not in self.rooms:
+			self.add_channel(channel)
+
+		return self.get_channel(channel)
+
 	def add_channel(self, channel):
 		if channel.id not in self.rooms:
+			print(f"\tInitializing {channel} in {channel.guild}")
 			room = Room(channel.name, playing_role_in_channel(channel), channel)
 			self.rooms[channel.id] = room
 			room.sync_players()
 
+	def remove_channel(self, channel):
+		if channel.id in self.rooms:
+			print(f"\tRemoving {channel} in {channel.guild}")
+			del self.rooms[channel.id]
+
 def here(ctx):
-	try:
-		return Rooms.get().rooms[ctx.channel.id]
-	except KeyError:
-		raise MissingChannelError(f"Channel {ctx.channel} is not initialized. Probably just wait a few seconds...")
+	return Rooms.get().get_channel_adding_if_missing(ctx.channel)
 
 def playing_role_in_channel(channel):
 	""" Returns the role for players in the given channel. May return None if no role is configured on the server or for this bot instance. """
@@ -45,5 +57,3 @@ def playing_role_in_channel(channel):
 
 def link_to_channel(channel):
 	return f"<https://discord.com/channels/{channel.guild.id}/{channel.id}>"
-
-

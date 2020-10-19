@@ -15,38 +15,44 @@ def mock_players(name_spec):
 	names = range(name_spec) if isinstance(name_spec, int) else name_spec  # Accept a count of names, for convenience.
 	return [MagicMock(name="Player", display_name=str(i)) for i in names]
 
+
 def unique_words(n):
 	return [str(i) for i in range(n)]
 
-def provide_entire_word_list(entire_word_list):
-	""" Injects an entire word list into the managed context. """
-	return patch.object(Shibboleth, "get_entire_word_list", MagicMock(return_value=entire_word_list), spec=True)
+
+def provide_corpus(corpus):
+	""" Injects a corpusinto the managed context. """
+	return patch.object(Shibboleth, "get_corpus", MagicMock(return_value=corpus), spec=True)
+
 
 def deterministic_sample():
 	""" Patches random.sample() to always return first k elements. """
 	return patch('random.sample', spec=True, new=lambda population, k: population[:k])
 
+
 def deterministic_shuffle():
 	""" Patches random.shuffle() to be a no-op. """
 	return patch('random.shuffle', spec=True, new=lambda *args: None)
+
 
 def provide_random(r):
 	""" Injects a deterministic value for random.random() """
 	return patch('random.random', spec=True, return_value=r)
 
 
+# noinspection PyPep8,PyPep8
 class TestShibboleth(unittest.TestCase):
 
-	# Iniitalization tests
+	# Initialization tests
 
 	def test_init_players(self):
 		""" Test initializing player list. """
 		for player_list in (
-			[],  # Empty player list permitted
-			range(1),
-			range(2),
-			range(5),
-			["a"] * 10,  # Repeated player names permitted
+				[],  # Empty player list permitted
+				range(1),
+				range(2),
+				range(5),
+				["a"] * 10,  # Repeated player names permitted
 		):
 			s = Shibboleth(mock_players(player_list), 16)
 			self.assertIsNotNone(s)
@@ -55,35 +61,35 @@ class TestShibboleth(unittest.TestCase):
 		# Repeated player objects not permitted
 		with self.assertRaises(GameInitializationError):
 			dup_players = mock_players(2)
-			s = Shibboleth(dup_players + dup_players, 16)
+			_s = Shibboleth(dup_players + dup_players, 16)
 
-	def test_init_entire_word_list(self):
-		""" Test loading entire word list. """
+	def test_init_corpus(self):
+		""" Test loading corpus. """
 		for size in range(2, 10):
-			with self.subTest(entire_wordlist_size=size):
+			with self.subTest(corpus_size=size):
 				l = unique_words(size)
-				with provide_entire_word_list(l):
+				with provide_corpus(l):
 					s = Shibboleth(mock_players(2), 2)
 					self.assertIsNotNone(s)
-					self.assertEqual(l, s.entire_word_list)
-					for w in s.words: self.assertIn(w, s.entire_word_list)
-					for w in s.secret_words: self.assertIn(w, s.entire_word_list)
+					self.assertEqual(l, s.corpus)
+					for w in s.words: self.assertIn(w, s.corpus)
+					for w in s.secret_words: self.assertIn(w, s.corpus)
 
-	def test_init_entire_word_list_fail(self):
-		""" Test error conditions for loading entire word list. """
+	def test_init_corpus_fail(self):
+		""" Test error conditions for loading corpus. """
 		for num_words in range(2, 5):
 			for l in (
-				["a"] * num_words,  # Results in repeated secret words
-				[],  # Not enough words for 2 teams
-				unique_words(num_words - 1),  # Not enough words to choose desired number of in-game words
+					["a"] * num_words,  # Results in repeated secret words
+					[],  # Not enough words for 2 teams
+					unique_words(num_words - 1),  # Not enough words to choose desired number of in-game words
 			):
-				with self.subTest(num_words=num_words, entire_word_list=l):
+				with self.subTest(num_words=num_words, corpus=l):
 					with self.assertRaises(GameInitializationError):
-						with provide_entire_word_list(l):
-							s = Shibboleth(mock_players(2), num_words)
+						with provide_corpus(l):
+							_ = Shibboleth(mock_players(2), num_words)
 
 	@deterministic_sample()
-	@provide_entire_word_list(unique_words(10))
+	@provide_corpus(unique_words(10))
 	def test_init_secret_words(self):
 		""" Test generating secret words. """
 		for num_words in range(2, 10 + 1):
@@ -92,20 +98,20 @@ class TestShibboleth(unittest.TestCase):
 			self.assertEqual(unique_words(2), s.secret_words)
 			for w in s.secret_words:
 				self.assertIn(w, s.words)
-				self.assertIn(w, s.entire_word_list)
+				self.assertIn(w, s.corpus)
 
 	@deterministic_sample()
 	def test_init_secret_words_fail(self):
 		""" Test error conditions for generating secret words. """
 		for l in (
-			["a"] * 4,
-			["a", "a"] + unique_words(2),
-			["a", "a"] + unique_words(10),
+				["a"] * 4,
+				["a", "a"] + unique_words(2),
+				["a", "a"] + unique_words(10),
 		):
-			with self.subTest(entire_word_list=l):
+			with self.subTest(corpus=l):
 				with self.assertRaises(GameInitializationError):
-					with provide_entire_word_list(l):
-						s = Shibboleth(mock_players(2), 4)
+					with provide_corpus(l):
+						_ = Shibboleth(mock_players(2), 4)
 
 	def test_init_team_sizes_no_skew(self):
 		""" Test computation of team sizes with no skew. """
@@ -153,14 +159,14 @@ class TestShibboleth(unittest.TestCase):
 		""" Test error conditions with skew_chance. """
 		with self.assertRaises(GameInitializationError):
 			# Too few players
-			s = Shibboleth(mock_players(1), 16, skew_chance=0.5)
+			_s = Shibboleth(mock_players(1), 16, skew_chance=0.5)
 		with self.assertRaises(GameInitializationError):
 			# team_guess_size is also defined
-			s = Shibboleth(mock_players(8), 16, team_guess_size=3, skew_chance=0.5)
+			_s = Shibboleth(mock_players(8), 16, team_guess_size=3, skew_chance=0.5)
 
 	@deterministic_sample()
 	@deterministic_shuffle()
-	@provide_entire_word_list(unique_words(16))
+	@provide_corpus(unique_words(16))
 	def test_init_player_words(self):
 		""" Test assigning players to words. """
 		for num_players in range(10):
@@ -178,14 +184,13 @@ class TestShibboleth(unittest.TestCase):
 		self.assertEqual(2, len(set(s.player_words.values())))
 		for w in s.player_words.values():
 			self.assertIn(w, s.words)
-			self.assertIn(w, s.entire_word_list)
-
+			self.assertIn(w, s.corpus)
 
 	# Functional tests
 
 	@deterministic_sample()
 	@deterministic_shuffle()
-	@provide_entire_word_list(unique_words(16))
+	@provide_corpus(unique_words(16))
 	def test_teams_players_words(self):
 		""" Test accessors for team/player/word mappings. """
 		players = mock_players(6)
@@ -202,7 +207,7 @@ class TestShibboleth(unittest.TestCase):
 
 	@deterministic_sample()
 	@deterministic_shuffle()
-	@provide_entire_word_list(unique_words(16))
+	@provide_corpus(unique_words(16))
 	def test_declare_winner(self):
 		""" Test declare_winner(). """
 		players = mock_players(6)
@@ -223,7 +228,7 @@ class TestShibboleth(unittest.TestCase):
 
 	@deterministic_sample()
 	@deterministic_shuffle()
-	@provide_entire_word_list(unique_words(16))	
+	@provide_corpus(unique_words(16))
 	def test_check_word_guess(self):
 		""" Test check_word_guess(). """
 		# Well-formed guesses
@@ -239,22 +244,23 @@ class TestShibboleth(unittest.TestCase):
 
 		# Invalid guesses
 		for guesser, word in (
-			(players[0], "0"),
-			(players[0], "1234"),
-			(mock_players(["not in game"])[0], "0"),
+				(players[0], "0"),
+				(players[0], "1234"),
+				(mock_players(["not in game"])[0], "0"),
 		):
 			with self.assertRaises(GameActionError):
 				s.check_word_guess(guesser, word)
 
 	@deterministic_sample()
 	@deterministic_shuffle()
-	@provide_entire_word_list(unique_words(16))	
+	@provide_corpus(unique_words(16))
 	def test_check_team_guess_max_guess(self):
 		""" Test check_team_guess() for a game requiring guessing a specific number of players. """
 		players = mock_players(9)
 		s = Shibboleth(players, 16, team_guess_size=3)
 		self.assertEqual(3, s.team_guess_size)
 
+		# noinspection PyShadowingNames
 		def team_guesses(guesser, players, team, guess_size, correct):
 			""" Returns set of (in)correct guesses (sets) that the guesser could have made. """
 			other_teammates = set(team) - guesser
@@ -280,19 +286,19 @@ class TestShibboleth(unittest.TestCase):
 
 		# Invalid guesses
 		for guesser, guess in (
-			(mock_players(["not in game"])[0], players[:3]),
-			(players[0], players[:2]),
-			(players[0], players[:4]),
-			(players[0], [players[0], players[1], players[1]]),
-			(players[0], players[1:4]),
+				(mock_players(["not in game"])[0], players[:3]),
+				(players[0], players[:2]),
+				(players[0], players[:4]),
+				(players[0], [players[0], players[1], players[1]]),
+				(players[0], players[1:4]),
 		):
 			for permutation in permutations(guess):
 				with self.assertRaises(GameActionError):
-					s.check_team_guess(guesser, guess)
+					s.check_team_guess(guesser, permutation)
 
 	@deterministic_sample()
 	@deterministic_shuffle()
-	@provide_entire_word_list(unique_words(16))	
+	@provide_corpus(unique_words(16))
 	def test_check_team_guess_whole_team_guess(self):
 		""" Test check_team_guess() for a game requiring guessing the whole team. """
 		players = mock_players(5)
@@ -311,27 +317,28 @@ class TestShibboleth(unittest.TestCase):
 			for guessed_team in (team, team_subset_or_superset, wrong_team_size3, wrong_team_size2):
 				with self.subTest(guesser=player, guessed_team=guessed_team):
 					for permutation in permutations(guessed_team):
-						self.assertEqual(guessed_team == team, s.check_team_guess(player, guessed_team))
+						self.assertEqual(guessed_team == team, s.check_team_guess(player, permutation))
 
 		# Invalid guesses
 		for guesser, guess in (
-			(mock_players(["not in game"])[0], players[:2]),
-			(players[0], players[:4]),
-			(players[0], players[:1]),
-			(players[0], [players[0], players[0]]),
-			(players[0], [players[0], players[1], players[1]]),
-			(players[0], [players[0], players[0], players[1]]),
-			(players[2], players[3:]),
+				(mock_players(["not in game"])[0], players[:2]),
+				(players[0], players[:4]),
+				(players[0], players[:1]),
+				(players[0], [players[0], players[0]]),
+				(players[0], [players[0], players[1], players[1]]),
+				(players[0], [players[0], players[0], players[1]]),
+				(players[2], players[3:]),
 		):
 			for permutation in permutations(guess):
 				with self.assertRaises(GameActionError):
-					s.check_team_guess(guesser, guess)
+					s.check_team_guess(guesser, permutation)
 
 	@deterministic_sample()
 	@deterministic_shuffle()
-	@provide_entire_word_list(unique_words(16))
+	@provide_corpus(unique_words(16))
 	def test_state_machine(self):
 		""" Test all game states and paths for games with and without veto phase. """
+
 		class State(Enum):
 			PLAYING = auto()
 			TEAM_GUESSED = auto()
@@ -406,7 +413,7 @@ class TestShibboleth(unittest.TestCase):
 			guesser = PLAYERS[i]
 			team = PLAYERS[:3] if i in range(3) else PLAYERS[3:]
 			opposing_word = "1" if i in range(3) else "0"
-			wrong_team = set([PLAYERS[0], PLAYERS[3], guesser])
+			wrong_team = {PLAYERS[0], PLAYERS[3], guesser}
 			if len(wrong_team) < 3: wrong_team.add(PLAYERS[i + 1])
 			return {
 				"correct_team_guess": lambda s: s.resolve_team_guess(guesser, team),
@@ -417,116 +424,116 @@ class TestShibboleth(unittest.TestCase):
 
 		# Attempt a veto timeout call, which may or may not be valid.
 		def veto_time_out(valid=True):
-			return lambda s: s.resolve_team_guess(*(s.vetoable_team_guess if valid and s.in_veto_phase else (PLAYERS[1], PLAYERS[1:4])),\
-												  veto_timeout_override=True)
+			return lambda s: s.resolve_team_guess(*(s.vetoable_team_guess if valid and s.in_veto_phase else (PLAYERS[1], PLAYERS[1:4])),
+													veto_timeout_override=True)
 
 		# Paths where the game ends normally.
 		normal_tests = (
 			Test(desc="Game ends immediately by correct word guess", include_veto_phase=False, steps=(
-					Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["correct_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["correct_word_guess"]),
+			), win="0"),
 			Test(desc="Game ends immediately by incorrect word guess", include_veto_phase=False, steps=(
-					Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["incorrect_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["incorrect_word_guess"]),
+			), win="1"),
 			Test(desc="Game ends immediately by correct word guess", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["correct_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["correct_word_guess"]),
+			), win="0"),
 			Test(desc="Game ends immediately by incorrect word guess", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["incorrect_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.WORD_GUESSED, action=do_for_player(0)["incorrect_word_guess"]),
+			), win="1"),
 
 			Test(desc="Game ends immediately by correct team guess", include_veto_phase=False, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED, action=do_for_player(0)["correct_team_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED, action=do_for_player(0)["correct_team_guess"]),
+			), win="0"),
 			Test(desc="Game ends immediately by incorrect team guess", include_veto_phase=False, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED, action=do_for_player(0)["incorrect_team_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED, action=do_for_player(0)["incorrect_team_guess"]),
+			), win="1"),
 
 			Test(desc="Correct team guessed, vetoed correctly by same player", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["correct_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["correct_word_guess"]),
+			), win="0"),
 			Test(desc="Correct team guessed, vetoed incorrectly by same player", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["incorrect_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["incorrect_word_guess"]),
+			), win="1"),
 			Test(desc="Correct team guessed, vetoed correctly by same team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["correct_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["correct_word_guess"]),
+			), win="0"),
 			Test(desc="Correct team guessed, vetoed incorrectly by same team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["incorrect_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["incorrect_word_guess"]),
+			), win="1"),
 			Test(desc="Correct team guessed, vetoed correctly by opposing team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["correct_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["correct_word_guess"]),
+			), win="1"),
 			Test(desc="Correct team guessed, vetoed incorrectly by opposing team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["incorrect_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["incorrect_word_guess"]),
+			), win="0"),
 
 			Test(desc="Incorrect team guessed, vetoed correctly by same player", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["correct_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["correct_word_guess"]),
+			), win="0"),
 			Test(desc="Incorrect team guessed, vetoed incorrectly by same player", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["incorrect_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(0)["incorrect_word_guess"]),
+			), win="1"),
 			Test(desc="Incorrect team guessed, vetoed correctly by same team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["correct_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["correct_word_guess"]),
+			), win="0"),
 			Test(desc="Incorrect team guessed, vetoed incorrectly by same team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["incorrect_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(1)["incorrect_word_guess"]),
+			), win="1"),
 			Test(desc="Incorrect team guessed, vetoed correctly by opposing team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["correct_word_guess"]),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["correct_word_guess"]),
+			), win="1"),
 			Test(desc="Incorrect team guessed, vetoed incorrectly by opposing team", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["incorrect_word_guess"]),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=do_for_player(3)["incorrect_word_guess"]),
+			), win="0"),
 
 			Test(desc="Correct team guessed, veto phase timed out", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=veto_time_out()),
-				), win="0"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=veto_time_out()),
+			), win="0"),
 			Test(desc="Incorrect team guessed, veto phase timed out", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=veto_time_out()),
-				), win="1"),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.VETO_PHASE_OVER, action=veto_time_out()),
+			), win="1"),
 		)
 
 		# Error raised by invalid veto timeout during an ongoing game.
 		veto_error_tests = (
 			Test(desc="Veto timeout with ongoing game", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.ERROR, action=veto_time_out()),
-				), win=None),
+				Step(from_state=State.PLAYING, to_state=State.ERROR, action=veto_time_out()),
+			), win=None),
 			Test(desc="Veto timeout for ongoing game with no veto phase", include_veto_phase=False, steps=(
-					Step(from_state=State.PLAYING, to_state=State.ERROR, action=veto_time_out()),
-				), win=None),
+				Step(from_state=State.PLAYING, to_state=State.ERROR, action=veto_time_out()),
+			), win=None),
 			Test(desc="Veto timeout with invalid team guess to resolve", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=veto_time_out(valid=False)),
-				), win=None),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["correct_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=veto_time_out(valid=False)),
+			), win=None),
 
 			Test(desc="Attempt to guess team (by same player) during veto phase", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=do_for_player(0)["correct_team_guess"]),
-				), win=None),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=do_for_player(0)["correct_team_guess"]),
+			), win=None),
 			Test(desc="Attempt to guess team (by same team) during veto phase", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=do_for_player(1)["correct_team_guess"]),
-				), win=None),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=do_for_player(1)["correct_team_guess"]),
+			), win=None),
 			Test(desc="Attempt to guess team (by opposing team) during veto phase", include_veto_phase=True, steps=(
-					Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
-					Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=do_for_player(3)["correct_team_guess"]),
-				), win=None),
+				Step(from_state=State.PLAYING, to_state=State.TEAM_GUESSED_VETOABLE, action=do_for_player(0)["incorrect_team_guess"]),
+				Step(from_state=State.TEAM_GUESSED_VETOABLE, to_state=State.ERROR, action=do_for_player(3)["correct_team_guess"]),
+			), win=None),
 		)
 
 		# Errors raised by attempting to make a guess or veto timeouts after the game is over.
@@ -537,9 +544,9 @@ class TestShibboleth(unittest.TestCase):
 			steps = (*test.steps, error_step)
 			return Test(desc=desc, include_veto_phase=test.include_veto_phase, steps=steps, win=None)
 
-		continuation_error_tests = [invalid_continutation(test, action_name) \
-			for test in normal_tests for action_name in do_for_player(0).keys()] + \
-			[invalid_continutation(test, "veto_time_out") for test in normal_tests if test.include_veto_phase]
+		continuation_error_tests = [invalid_continutation(test, action_name)
+									for test in normal_tests for action_name in do_for_player(0).keys()] + \
+								   [invalid_continutation(test, "veto_time_out") for test in normal_tests if test.include_veto_phase]
 
 		for test in (*normal_tests, *veto_error_tests, *continuation_error_tests):
 			with self.subTest(desc=test.desc, include_veto_phase=test.include_veto_phase):

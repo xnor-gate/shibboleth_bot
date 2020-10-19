@@ -18,13 +18,13 @@ class Server(commands.Cog):
 
 	@commands.command(
 		brief="Get pinged on Discord when people want to play",
-		description="Give yourself the \"Notify of Shibboleth games\" role (or this server's equivalent), which can be pinged to alert those interested in joining games. This gets pinged when someone messages `@Notify of Games`, not automatically when there's a game.",
+		description="Give yourself the \"Notify of Shibboleth games\" role, which can be pinged to alert those interested in joining games. This gets pinged when someone messages `@Notify of Shibboleth Games`, not automatically when there's a game.",
 		aliases=["n"],
 	)
 	async def notify(self, ctx):
 		member = ctx.author
 		notify_role = self.get_notify_role(ctx)
-		if not notify_role:
+		if notify_role is None:
 			await ctx.send(f"{member.mention} will not be notified of games. This server doesn't have a notification role!")
 			return
 
@@ -44,7 +44,7 @@ class Server(commands.Cog):
 	async def unnotify(self, ctx):
 		member = ctx.author
 		notify_role = self.get_notify_role(ctx)
-		if not notify_role:
+		if notify_role is None:
 			await ctx.send(f"{member.mention} will not be notified of games. This server doesn't have a notification role!")
 			return
 

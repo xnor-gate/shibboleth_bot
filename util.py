@@ -9,6 +9,7 @@ class Singleton:
         try:
             return self.instance
         except AttributeError:
+            # noinspection PyAttributeOutsideInit
             self.instance = self.cls()
             return self.instance
 

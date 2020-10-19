@@ -41,18 +41,25 @@ class Round(commands.Cog):
 		pinned_messages = await ctx.channel.pins()
 		for pinned_message in pinned_messages:
 			if pinned_message.author.bot:
-				await pinned_message.unpin()
+				try:
+					await pinned_message.unpin()
+				except discord.errors.Forbidden:
+					pass
 
 	async def display_and_pin_wordlist(self, ctx):
 		await self.reset_pins(ctx)
 		msg = await ctx.send(self.wordlist_formatted_string(ctx))
-		await msg.pin()
+
+		# Pin the message, but if we can't due to not having permissions, don't do anything.
+		try:
+			await msg.pin()
+		except discord.errors.Forbidden:
+			pass
 
 	async def message_player_secret_word(self, ctx, player):
 		secret_word = here(ctx).game.get_secret_word(player)
-		return_url = link_to_channel(ctx.channel)
 
-		await player.send(f"Round {here(ctx).round_num}: Your secret word is    **{secret_word}**    (back to #{ctx.channel.name}: {return_url})")
+		await player.send(f"Round {here(ctx).round_num}: Your secret word is **{secret_word}** (back to {ctx.channel.mention})")
 
 	@commands.command(
 		brief="Guess the opposing team's word",

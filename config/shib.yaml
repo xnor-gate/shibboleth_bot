@@ -7,11 +7,13 @@
 
 # See config.py for all configurable constants.
 
+# Path to the word list
+"word_list_path": wordlists/wordlist2000.txt
+
 # Map of channel name to optional role name for players in the given channel.
 # Can be extended by adding the same numerical suffix to both, e.g. shibboleth-game2 -> Playing2
 playing_roles_in_channels:
   shibboleth-game: Playing
-  shibboleth-pictures: PlayingPics
   shibboleth: Playing Shibboleth
   bot-testing: Testing
 
@@ -19,4 +21,4 @@ playing_roles_in_channels:
 misc_playing_role: Playing Shibboleth
 
 # Name of optional role for players wishing to be notified of a game.
-notify_role: Notify of Shibboleth games
+notify_role: Notify of games

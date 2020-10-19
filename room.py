@@ -37,7 +37,7 @@ class Room:
 			team_guess_size = self.max_guess
 
 		if self.num_words == 0:
-			num_words = min(max(2 * num_players, 8), 16)
+			num_words = min(max(2 * num_players, 10), 14) 
 		else:
 			num_words = self.num_words
 
@@ -98,7 +98,7 @@ class Room:
 	def sync_players(self):
 		self.remove_all_players()
 
-		if not self.playing_role:
+		if self.playing_role is None:
 			return
 		for member in self.channel.members:
 			if self.playing_role in member.roles:

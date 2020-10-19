@@ -20,7 +20,7 @@ async def show_help_page(ctx):
 
 	message_lines.append("")
 	message_lines.append("Put any arguments to a command space-separated like \"!gw apple\" or \"!gt @Alice @Bob\".")
-	message_lines.append("Call !help on a command for more info on using it. The bot can reply to help commands you direct-message it.")
+	message_lines.append("Call !help on a command for more info on using it. You can also direct-message the bot with help commands.")
 
 	message = "\n".join(message_lines)
 	boxed_message = prefix + "\n" + f"```{message}```"
