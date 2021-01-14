@@ -105,7 +105,7 @@ You can add this bot to any Discord server that you manage. This is done solely 
 
 You can optionally do these:
 
-- To restrict the bot to a specific channel or channels, for each channel you *don't* want it in, go to its channel permissions, add the Shibboleth role as a new permissions category, and remove its "Read Messages" permission. (Unfortunately, [Discord doesn't seem to provide a more scalable way to do this](https://support.discord.com/hc/en-us/community/posts/360045778711-Restrict-bots-to-certain-channels-#:~:text=At%20the%20moment%2C%20the%20only,the%20more%20tedious%20it%20becomes.).) If your channel permissions are synced with a category, you can change permissions for that category to affect all its channels.
+- To restrict the bot to a specific channel or channels, for each channel you *don't* want it in, go to its channel permissions, add the Shibboleth role as a new permissions category, and remove its "Read Messages" permission. (Unfortunately, [Discord doesn't seem to provide a less tedious way to do this](https://support.discord.com/hc/en-us/community/posts/360045778711-Restrict-bots-to-certain-channels-#:~:text=At%20the%20moment%2C%20the%20only,the%20more%20tedious%20it%20becomes.).) If your channel permissions are synced with a category, you can change permissions for that category to affect all its channels.
 - If you want a visible role to mark who is playing, create a role named `Playing Shibboleth`. Put it lower than the bot's Shibboleth role in the role list.
 - If you want a role people can use to ping other about games, create a role named `Notify of Shibboleth Games`. Put it lower than the bot's Shibboleth role in the role list. Users can do `!notify` and `!unnotify` to get or remove this role, but the bot won't be ping it automatically.
 
@@ -151,8 +151,10 @@ $ python3 bot.py --config=foo
 
 ## Credits
 
-Shibboleth bot and server by xnor-gate. Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which the bot was written, and to the discord.py Discord community for their frequent help.
+Shibboleth bot and server by xnor-gate. If you have comments or questions, please ping xnor#7491 on Discord in the [Shibboleth server](https://discord.gg/2SeRD8t) or via Direct Message. 
 
-Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to play the game in person at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall) from which this project took inspiration.
+Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which the bot was written, and to the discord.py Discord community for their frequent help.
+
+Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to play the game in person at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall), from which this project took inspiration.
 
 Thanks to [dfkoh](https://github.com/dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, and to [lchen025](https://github.com/lchen025) for code contributions. Thanks to everyone who suggested names and improvements.
