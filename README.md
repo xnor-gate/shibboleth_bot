@@ -1,6 +1,6 @@
 # Shibboleth bot
 
-This is a Discord bot to play the hidden-team word game Shibboleth remotely via real-time text on the [Shibboleth discord server](https://discord.gg/2SeRD8t).
+This is a Discord bot to play the hidden-team word game Shibboleth remotely via real-time text on the [Shibboleth discord server](https://discord.gg/2SeRD8t) and other Discord severs. It's written and run by xnor#7491 on Discord. Please message xnor#7491 if you have any questions or if the bot is down.
 
 ### Table of Contents
 1. [Using the bot](#using-the-bot)
