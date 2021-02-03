@@ -103,7 +103,7 @@ Reactions on a clue can be used as a shorthand to express what you think about i
 
 You can add this bot to any Discord server that you manage. This is easy to do through Discord's interface; it doesn't require running any code.
 
-[Link to add the bot to your server](https://discord.com/api/oauth2/authorize?client_id=696541868548423782&permissions=268446720&scope=bot).
+[Link to add the bot to your server](https://discord.com/api/oauth2/authorize?client_id=696541868548423782&permissions=268446720&scope=bot)
 
 You can optionally do these:
 
