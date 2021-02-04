@@ -103,7 +103,7 @@ Reactions on a clue can be used as a shorthand to express what you think about i
 
 You can add this bot to any Discord server that you manage. This is easy to do through Discord's interface; it doesn't require running any code.
 
-[Link to add the bot to your server](https://discord.com/api/oauth2/authorize?client_id=696541868548423782&permissions=268446720&scope=bot)
+[Add the bot to a server](https://discord.com/api/oauth2/authorize?client_id=696541868548423782&permissions=268446720&scope=bot)
 
 You can optionally do these:
 
@@ -111,7 +111,7 @@ You can optionally do these:
 - If you want a visible role to mark who is playing, create a role named `Playing Shibboleth`. Put it lower than the bot's Shibboleth role in the role list.
 - If you want a role people can use to ping other about games, create a role named `Notify of Shibboleth Games`. Put it lower than the bot's Shibboleth role in the role list. Users can do `!notify` and `!unnotify` to get or remove this role. It is a role users can the ping -- the bot won't be ping it automatically.
 
-The bot asks for the following permissions when you add it. You can uncheck them, or later change them via the permissions of the "Shibboleth" role or permissions for specific channels. You'll need Send Messages and View Channels (Read Messages) in a channel for the bot to function there.
+The bot asks for the following permissions when you add it. The first two are needed for the bot to function. The others are optional. You can uncheck them, or later change them via the permissions of the "Shibboleth" role or permissions for specific channels.
 
 * Send Messages
 * View Channels (aka Read Messages)
