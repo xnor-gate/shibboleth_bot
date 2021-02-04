@@ -1,6 +1,6 @@
 # Shibboleth bot
 
-This is a Discord bot to play the hidden-team word game Shibboleth remotely via real-time text on the [Shibboleth Discord server](https://discord.gg/2SeRD8t) and any Discord severs. Please message xnor#7491 on Discord if you have any questions or if the bot is down.
+This is a Discord bot to play the hidden-team word game Shibboleth remotely via real-time text on the [Shibboleth Discord server](https://discord.gg/2SeRD8t) and any Discord sever. Please message xnor#7491 on Discord if you have any questions or if the bot is down.
 
 ### Table of Contents
 1. [Using the bot](#using-the-bot)
@@ -20,13 +20,13 @@ This is a Discord bot to play the hidden-team word game Shibboleth remotely via 
 
 
 ## Using the bot
-If you want to play, write `!join` in the game's channel. Write `!help` to show the bot's list of commands. You can do this in any channel in the server or by messaging the Shibboleth bot. Use `!help command` to get details on using that command.
+If you want to play, write `!join` in the game's channel. Write `!help` to show the bot's list of commands. Use `!help command` to get details on using that command.
 
 ## How to play Shibboleth
 
 ### Rules
 
-Shibboleth (aka Castlefall) is a fast-paced hidden-team word game for 3 to 12 players. It's kind-of like Codenames, Spyfall, and Castle of the Devil. A round takes about 2-10 minutes.
+Shibboleth (aka Castlefall) is a fast-paced hidden-team word game for 3 to 12 players. It's kind-of like Codenames, Spyfall, and Castle of the Devil. A round takes about 2 to 10 minutes.
 
 You are given a secret word that only you know. Half the players get one secret word and half have another. For example, in a five-player game, three players might have "banana" and two might have "skateboard". 
 
@@ -36,7 +36,7 @@ The people sharing your word are your team, and those with the other word are yo
 
 After any guess, the round immediately ends and the teams and words are revealed. If you're right, your team wins, and you're wrong, your team loses.
 
-You try to find your team by giving clues about your word. The idea is to convince teammates that you share the same word, while being vague or tricky enough that the opposing team won't figure out your word. Cluing is freeform. You can say whatever you want in your clues, and you can clue whenever you want -- there aren't any turns. The only rule is your clues have to be public to everyone. You can assume anything someone says during a round is a clue, unless it's marked as "not a clue" ("nac").
+You try to find your team by giving clues about your word. The idea is to convince teammates that you share the same word, while being vague or tricky enough that the opposing team won't figure out your word. Cluing is freeform. You can say whatever you want in your clues, and you can clue whenever you want -- there aren't any turns. The only rule is your clues have to be public to everyone. You can assume anything said during a round is a clue, unless it's marked as "not a clue" ("nac").
 
 A list of 14 or so random words including both secret words is publicly displayed. Scanning through it can help you look for words that the other team might be cluing. If you find one that seems to match, you might then give clues pretending that's your word to test this theory and try to infiltrate their team.
 
@@ -58,9 +58,9 @@ Small games with 2, 3, or 4 players might use the "skew" option to give a chance
 
 ## Playing on Discord
 
-You can play on the [Shibboleth discord server](https://discord.gg/2SeRD8t). Just follow the link, click to accept the invite, and type in a name to show for you. If Discord asks for your e-mail to link your account, you can ignore this by clicking outside the prompt.
+You can play on the [Shibboleth Discord server](https://discord.gg/2SeRD8t). Just follow the link, click to accept the invite, and type in a name to show for you. If Discord asks for your e-mail to link your account, you can ignore this by clicking outside the prompt.
 
-The bot automatically sends players their secret words and resolves guesses. Write `!help` to see the list of bot commands. You can play with your friends online at any time. If the Shibboleth user doesn't appear as online under "Bot", it's offline -- please let the maintainer know.
+The bot automatically sends players their secret words and resolves guesses. Write `!help` to see the list of bot commands. You can play with your friends online at any time. If the Shibboleth user doesn't appear as online under "Bot", it's offline -- please let xnor#7491 know.
 
 It's recommended to play Shibboleth on a computer rather than a phone.
 
@@ -153,10 +153,10 @@ $ python3 bot.py --config=foo
 
 ## Credits
 
-Shibboleth bot and server by xnor-gate. If you have comments or questions, please ping xnor#7491 on Discord in the [Shibboleth server](https://discord.gg/2SeRD8t) or via Direct Message. 
-
-Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which the bot was written, and to the discord.py Discord community for their frequent help.
+Shibboleth bot and server by xnor-gate. If you have comments or questions, please ask in the [Shibboleth server](https://discord.gg/2SeRD8t) or message xnor#7491 on Discord 
 
 Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to play the game in person at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall), from which this project took inspiration.
 
 Thanks to [dfkoh](https://github.com/dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, and to [lchen025](https://github.com/lchen025) for code contributions. Thanks to everyone who suggested names and improvements.
+
+Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which the bot was written, and to the discord.py Discord community for their frequent help.
