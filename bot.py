@@ -1,8 +1,8 @@
 import argparse
 import traceback
+import asyncio
 
 import discord
-from discord.ext.commands import Bot
 
 import config
 from help import Help
@@ -43,11 +43,13 @@ async def on_message_edit(_before, after):
 async def initialize_channel(channel):
 	assert channel is not None, "None channel"
 	print(f"Initializing {channel} in {channel.guild}")
-
 	Rooms.get().add_channel(channel)
 
 async def on_ready():
 	print(f"Logged in as {bot.user.name}")
+	for cog in [Lobby(bot), Round(bot), Help(bot), Status(bot), Options(bot), Server(bot)]:
+		await bot.add_cog(cog)
+
 	await bot.change_presence(activity=discord.Activity(name="Shibboleth (!h for help)", type=1, url="https://github.com/xnor-gate/shibboleth_bot/blob/master/README.md"))
 
 	for channel in bot.get_all_channels():
@@ -65,6 +67,18 @@ def read_token():
 	with open("config/token.txt", "r") as f:
 		return f.readline()
 
+#async def on_message(self, message):
+#	# Don't respond to ourselves
+#	if message.author == self.user:
+#		return
+#
+#	# If bot is mentioned, reply with a message
+#	if self.user in message.mentions:
+#		print(f"Initializing {message.channel} in {message.channel.guild}")
+#		Rooms.get().add_channel(message.channel)
+#		await message.channel.send("Channel initialised.")
+#		return
+
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='Run the Shibboleth Discord bot.')
 	parser.add_argument('--config', dest="config", default="shib",
@@ -73,13 +87,13 @@ if __name__ == "__main__":
 
 	config.init(args.config)
 
-	bot = Bot(command_prefix=config.bot_prefix, case_insensitive=True, help_command=None)
+	intents = discord.Intents.default()
+	intents.message_content = True
+
+	bot = discord.ext.commands.Bot(command_prefix=config.bot_prefix, case_insensitive=True, help_command=None, intents=intents)
 
 	for event in [on_command_error, on_message_edit, on_ready]:
 		event = bot.event(event)  # Equivalent to @bot.event decorator
-
-	for cog in [Lobby(bot), Round(bot), Help(bot), Status(bot), Options(bot), Server(bot)]:
-		bot.add_cog(cog)
 
 	for command in bot.walk_commands():
 		command.ignore_extra = False
