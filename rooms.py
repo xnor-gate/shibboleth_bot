@@ -24,6 +24,8 @@ def here(ctx):
 	try:
 		return Rooms.get().rooms[ctx.channel.id]
 	except KeyError:
+		print(f"Initializing {ctx.channel} in {ctx.channel.guild}")
+		Rooms.get().add_channel(ctx.channel)
 		raise MissingChannelError(f"Channel {ctx.channel} is not initialized. Probably just wait a few seconds...")
 
 def playing_role_in_channel(channel):
