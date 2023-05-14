@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from check import no_dm_predicate, during_round, by_player
 from name_utils import names_list_string, names_string
-from rooms import here, link_to_channel
+from rooms import here
 
 
 class Round(commands.Cog):
@@ -40,7 +40,7 @@ class Round(commands.Cog):
 	async def reset_pins(self, ctx):
 		pinned_messages = await ctx.channel.pins()
 		for pinned_message in pinned_messages:
-			if pinned_message.author.bot:
+			if pinned_message.author == self.bot.user:
 				try:
 					await pinned_message.unpin()
 				except discord.errors.Forbidden:

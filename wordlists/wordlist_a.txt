@@ -938,7 +938,6 @@ snowball
 snowflake
 snowman
 sock
-socks
 soda
 software
 soil

@@ -100,6 +100,8 @@ class Room:
 
 		if self.playing_role is None:
 			return
+
+		# Enumerating the users in the channel with the playing roles requires the members intent
 		for member in self.channel.members:
 			if self.playing_role in member.roles:
 				self.add_player(member)

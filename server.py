@@ -25,7 +25,7 @@ class Server(commands.Cog):
 		member = ctx.author
 		notify_role = self.get_notify_role(ctx)
 		if notify_role is None:
-			await ctx.send(f"{member.mention} will not be notified of games. This server doesn't have a notification role!")
+			await ctx.send(f"Can't give you notification role because this server doesn't have one. It's named \"Notify of Shibboleth games\" by default.")
 			return
 
 		notify_role_name = notify_role.name
@@ -45,7 +45,7 @@ class Server(commands.Cog):
 		member = ctx.author
 		notify_role = self.get_notify_role(ctx)
 		if notify_role is None:
-			await ctx.send(f"{member.mention} will not be notified of games. This server doesn't have a notification role!")
+			await ctx.send(f"Can't remove notification role because this server doesn't have one. It's named \"Notify of Shibboleth games\" by default.")
 			return
 
 		notify_role_name = notify_role.name

@@ -13,12 +13,12 @@
 # Map of channel name to optional role name for players in the given channel.
 # Can be extended by adding the same numerical suffix to both, e.g. shibboleth-game2 -> Playing2
 playing_roles_in_channels:
-  shibboleth-game: Playing
+  shibboleth-game: Playing Shibboleth
   shibboleth: Playing Shibboleth
-  bot-testing: Testing
+  bot-testing: Testing Shibboleth
 
 # Name of optional role for players in a channel not matching any of the above.
 misc_playing_role: Playing Shibboleth
 
 # Name of optional role for players wishing to be notified of a game.
-notify_role: Notify of games
+notify_role: Notify of Shibboleth games

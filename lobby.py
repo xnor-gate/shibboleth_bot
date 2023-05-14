@@ -85,11 +85,11 @@ class Lobby(commands.Cog):
 			reason_str = ""
 
 		if room.in_round and (member in room.game.players):
-			await ctx.send(f"{member.mention} will leave after this round finishes{reason_str}.")
+			await ctx.send(f"{member.display_name} will leave after this round finishes{reason_str}.")
 			room.add_member_to_leaver_queue(member)
 		elif room.in_round and (member in room.queued_joiners):
 			room.remove_member_from_joiner_queue(member)
-			await ctx.send(f"{member.mention} will no longer join after this round{reason_str}.")
+			await ctx.send(f"{member.display_name} will no longer join after this round{reason_str}.")
 		elif member in room.room_players:
 			room.remove_player(member)
 			await ctx.send(f"{member.display_name} is no longer playing{reason_str}.")

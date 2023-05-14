@@ -21,6 +21,4 @@ if __name__ == "__main__":
 	with open("config/token.txt", "r") as f:
 		token = f.readline()
 
-	print("Initializing bot...")
 	bot.run(token)
-	print("Bot is ready")

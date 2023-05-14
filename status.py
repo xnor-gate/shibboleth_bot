@@ -20,7 +20,7 @@ class Status(commands.Cog):
 		team_sizes_string = " or ".join([str(size) for size in sorted(set(game.possible_team_sizes))])
 
 		if game.team_guess_size is not None:
-			team_guess_size_comment = f", of which you guess a subset of {game.team_guess_size} (counting yourself)"
+			team_guess_size_comment = f", of which you **guess a subset of {game.team_guess_size}** (counting yourself)"
 		else:
 			team_guess_size_comment = ". Guess your whole team exactly"
 

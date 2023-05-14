@@ -16,13 +16,23 @@ from server import Server
 from shibboleth import GameActionError, GameInitializationError
 from status import Status
 
+from datetime import datetime
+
+from sys import stderr
 
 class MyBot(Bot):
 	"""
 	Creates a custom bot (client) with custom event listeners.
 	"""
 	def __init__(self):
-		Bot.__init__(self, command_prefix=config.bot_prefix, help_command=None)
+		command_prefix = discord.ext.commands.when_mentioned_or(config.bot_prefix)
+		activity = discord.Game(name="Shibboleth (!h for help)")
+
+		intents = discord.Intents.default()
+		# The members intent is used solely in sync_players when the bot starts to mark everyone with the playing role as playing. This is useful is the bot restarts in the middle of some games.
+		intents.members = True
+
+		Bot.__init__(self, command_prefix=command_prefix, help_command=None, activity=activity, case_insensitive=True, intents=intents)
 
 		for cog_class in [Lobby, Round, Help, Status, Options, Server]:
 			self.add_cog(cog_class(self))
@@ -31,8 +41,17 @@ class MyBot(Bot):
 		for command in self.walk_commands():
 			command.ignore_extra = False
 
-		# Make commands case-insensitive
-		self.case_insensitive = True
+	# Logs commands for debugging. TODO
+	async def on_command(self, ctx):
+		now = datetime.now()
+		dt_string = now.strftime("%Y %b %d %H:%M:%S")
+
+		guild = ctx.guild
+		guild_name = guild.name if (guild is not None) else None
+		channel_name = ctx.channel.name
+		author_name = ctx.author.name
+		message = f"{dt_string}: Command \"{ctx.command}\" run in guild {guild_name}, channel {channel_name} by {author_name} (message: {ctx.message.content})."
+		print(message)
 
 	# When a command fails, display information about the error in the Discord channel
 	async def on_command_error(self, ctx, exception):
@@ -49,12 +68,16 @@ class MyBot(Bot):
 			error_message = f"{ctx.author.mention} {exception_name}{command_info}: {orig_exception}"
 		elif isinstance(orig_exception, CommandError):
 			error_message = f"{ctx.author.mention} Failed{command_info}: {orig_exception}"
+
 		else:
 			error_message = f"{ctx.author.mention} Failed{command_info}: {exception}"
 
-		if orig_exception is not None:
-			traceback.print_exception(type(orig_exception), orig_exception, orig_exception.__traceback__)
 		await ctx.send(error_message)
+
+		if (orig_exception is not None) and not isinstance(orig_exception, (GameActionError, RoomError, GameInitializationError)):
+			extended_error_message = f"{ctx.author.name} in guild {ctx.guild.name}, channel {ctx.channel.name}\nFailed{command_info}: {exception}"
+			print(extended_error_message, file=stderr)
+			traceback.print_exception(type(orig_exception), orig_exception, orig_exception.__traceback__)
 
 	# Make the bot pick up on commands in edited messages
 	async def on_message_edit(self, _before, after):
@@ -71,29 +94,30 @@ class MyBot(Bot):
 			return re.sub(r'\([^\)]*\)', '', text).strip()
 
 		message.content = remove_parenthetical_asides(message.content)
+
+		# Ignore commands that consist solely of exclamation or question marks
+
+		if (set(message.content) <= {"!"}) or ("?" in message.content):
+			return
+
 		await self.process_commands(message)
 
 	async def on_ready(self):
 		print(f"Logged in as {self.user.name}")
-		await self.change_presence(activity=discord.Game(name="Shibboleth (!h for help)"))
 		await self.initialize_all_channels()
-		print("Initialization complete\n")
+		print("\nInitialization complete\n")
 
 	async def initialize_channels_in_guild(self, guild):
-		for channel in guild.channels:
+		for channel in guild.text_channels:
 			# Skip over any channel the bot can't read, since we're getting these channels too
 			if not channel.permissions_for(channel.guild.me).read_messages:
-				continue
-
-			# Skip over non-text channels. These include voice channels and DM channels.
-			if channel.type != discord.ChannelType.text:
 				continue
 
 			Rooms.get().add_channel(channel)
 
 	async def initialize_all_channels(self):
 		for guild in self.guilds:
-			print(f"Initializizing {guild.name}")
+			print(f"Initializing {guild.name} ({guild.id})")
 			await self.initialize_channels_in_guild(guild)
 
 	async def on_guild_channel_delete(self, channel):

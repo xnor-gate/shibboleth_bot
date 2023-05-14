@@ -83,7 +83,6 @@ ban
 banana
 band
 bang
-banister
 banjo
 bank
 bar
@@ -406,6 +405,7 @@ crest
 crew
 crib
 cricket
+criminal
 crisp
 cross
 crossbow
@@ -729,6 +729,7 @@ giraffe
 girl
 girlfriend
 glacier
+gladiator
 glasses
 glitter
 globe
@@ -814,7 +815,6 @@ herbs
 hermit
 hiccup
 hide
-highchair
 highlight
 highway
 hill
@@ -1213,7 +1213,6 @@ package
 pad
 paddle
 page
-pagoda
 pail
 pain
 painting
@@ -1443,7 +1442,7 @@ retire
 revenue
 review
 revolution
-reward
+reward 
 rhinoceros
 rhyme
 rhythm
@@ -1482,7 +1481,7 @@ rule
 run
 runoff
 rust
-rut
+rutthi  
 sack
 sad
 saddle
@@ -1519,7 +1518,7 @@ scissors
 score
 scramble
 scratch
-scream
+scream 
 screen
 screw
 screwdriver
@@ -1921,6 +1920,7 @@ wallet
 walrus
 wand
 war
+warden
 warehouse
 warning
 wasp
