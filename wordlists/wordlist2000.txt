@@ -1442,7 +1442,7 @@ retire
 revenue
 review
 revolution
-reward 
+reward
 rhinoceros
 rhyme
 rhythm
@@ -1481,7 +1481,7 @@ rule
 run
 runoff
 rust
-rutthi  
+rut
 sack
 sad
 saddle
@@ -1518,7 +1518,7 @@ scissors
 score
 scramble
 scratch
-scream 
+scream
 screen
 screw
 screwdriver

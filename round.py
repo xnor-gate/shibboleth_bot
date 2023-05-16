@@ -39,6 +39,8 @@ class Round(commands.Cog):
 
 	async def reset_pins(self, ctx):
 		pinned_messages = await ctx.channel.pins()
+
+		# Remove all pinned messages that we're the author of
 		for pinned_message in pinned_messages:
 			if pinned_message.author == self.bot.user:
 				try:

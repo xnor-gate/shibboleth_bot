@@ -29,19 +29,20 @@ class MyBot(Bot):
 		activity = discord.Game(name="Shibboleth (!h for help)")
 
 		intents = discord.Intents.default()
+
+		# Be able to read messages to process commands
+		intents.message_content = True
+
 		# The members intent is used solely in sync_players when the bot starts to mark everyone with the playing role as playing. This is useful is the bot restarts in the middle of some games.
 		intents.members = True
 
 		Bot.__init__(self, command_prefix=command_prefix, help_command=None, activity=activity, case_insensitive=True, intents=intents)
 
-		for cog_class in [Lobby, Round, Help, Status, Options, Server]:
-			self.add_cog(cog_class(self))
-
 		# Make all commands not silently truncate up to the last valid argument
 		for command in self.walk_commands():
 			command.ignore_extra = False
 
-	# Logs commands for debugging. TODO
+	# Logs commands for debugging. TODO: actually log.
 	async def on_command(self, ctx):
 		now = datetime.now()
 		dt_string = now.strftime("%Y %b %d %H:%M:%S")
@@ -85,8 +86,8 @@ class MyBot(Bot):
 
 	# Do additional processing on messages before scanning them for commands
 	async def on_message(self, message):
-		# Ignore messages sent by the bot itself
-		if message.author == self.user:
+		# Ignore messages sent by this bot or any other bot
+		if message.author.bot:
 			return
 
 		def remove_parenthetical_asides(text):
@@ -95,8 +96,7 @@ class MyBot(Bot):
 
 		message.content = remove_parenthetical_asides(message.content)
 
-		# Ignore commands that consist solely of exclamation or question marks
-
+		# Ignore commands that consist solely of exclamation or contain a question mark
 		if (set(message.content) <= {"!"}) or ("?" in message.content):
 			return
 
@@ -104,6 +104,9 @@ class MyBot(Bot):
 
 	async def on_ready(self):
 		print(f"Logged in as {self.user.name}")
+		for cog_class in [Lobby, Round, Help, Status, Options, Server]:
+			await self.add_cog(cog_class(self))
+
 		await self.initialize_all_channels()
 		print("\nInitialization complete\n")
 
