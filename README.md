@@ -41,7 +41,7 @@ After any guess, the round ends and the teams and words are revealed. If you're 
 
 You try to find your team by giving clues about your word. The idea is to convince teammates that you share the same word, while being vague or tricky enough that the opposing team won't figure out your word. Cluing is freeform, and there aren't any turns. You can say whatever you want in your clues at any time. The only rule is your clues have to be public to everyone. You can assume anything said during a round is a clue, unless it's marked as "not a clue" ("nac").
 
-A list of 14 or so random words including both secret words is publicly displayed. Scanning through it can help you look for words that the other team might be cluing. If you find one that seems to match, you might then give clues pretending this is your secret word to test this theory and try to infiltrate their team.
+A list of 14 or so random words including both secret words is publicly displayed. Scanning through it can help you look for words that the other team might be cluing. If you find one that seems to match, you might then give clues pretending this is your secret word to test this theory and try to infiltrate their team ("fishing").
 
 ### Veto phase
 
@@ -158,6 +158,6 @@ Shibboleth bot and server by xnor-gate. If you have comments or questions, pleas
 
 Shibboleth (as Castlefall) was invented by people at MIT in 2017. Thanks to [garywang](https://github.com/garywang) and [betaveros](https://github.com/betaveros/castlefall) for making their sites to play the game in person at [mp.garywang.net](https://mp.garywang.net/) and [bpchen.com/castlefall](http://www.bpchen.com/castlefall), from which this project took inspiration.
 
-Thanks to [dfkoh](https://github.com/dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, and to [lchen025](https://github.com/lchen025) for code contributions. Thanks to everyone who suggested names and improvements.
+Thanks to [dfkoh](https://github.com/dfkoh) for producing part of the word list, to [tckmn](https://github.com/tckmn) for making the server icon, to [lchen025](https://github.com/lchen025) for code contributions, and to [TheOriginalSoni](https://github.com/TheOriginalSoni) for updating the code to Discord 2.0. Thanks to everyone who suggested names and improvements.
 
 Thanks to Discord for their platform and API, to Rapptz and contributors for [discord.py](https://github.com/Rapptz/discord.py) in which the bot was written, and to the discord.py Discord community for their frequent help.
